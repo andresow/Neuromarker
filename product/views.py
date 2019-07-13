@@ -5,4 +5,13 @@ from django.http import HttpResponse
 
 def index(request):
     return render(request, 'products/index.html')
+
+def products(request):
+    return render(request, 'products/products.html')
+
+def checkout(request):
+    return render(request, 'products/checkout.html')
+
+def productPage(request):
+    return render(request, 'products/product-page.html')
     
