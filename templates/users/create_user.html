@@ -1,90 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<title>SporTicket</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{% static 'css/w3.css' %}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="{% static 'css/css.css' %}">
-	<link rel="stylesheet" href="{% static 'css/window.css' %}">
-    <link rel="icon" href="{% static 'images/sporticket.png' %}">
-    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <link rel="stylesheet" href="{% static 'css/morris.css' %}">
-    <script src="{% static 'js/morris.min.js' %}" charset="utf-8"></script> 	
-</head>
-<body class="w3-light-grey">
+{% extends 'base/checkout.html' %}
+{% block main %}
+{% load bootstrap4 %}
 
-    <div class="w3-row-padding">
-        <div class="w3-third"><img src=""></div>
-        <div class="w3-third">
-            <div class="w3-container w3-center" >
-                <br>
-                <div class="w3-card-4 w3-dark-grey width-card">
-            
-                    <div class="w3-container w3-center">
-                        <h3>SporTicket</h3>
-                        <img  class="imgLogin width-image" src="{% static 'images/sporticket.png' %} " alt="Logo SporTicket">
-                    </div>
-                    <div class="w3-container w3-center">
-                        {% block content %}
-
-                        <form method="POST"> 
-                            {% csrf_token %}
-                            <form class="w3-container">
-                                <div class="w3-section">
-                                    <label><b class="orange-color">NickName</b></label>
-                                    <input class="w3-input w3-border w3-margin-bottom" 
-                                            type="text" 
-                                            name="username" 
-                                            id="username">
-                                    <label><b class="orange-color">Contraseña</b></label>
-                                    <input class="w3-input w3-border" 
-                                            type="password" 
-                                            name="password" 
-                                            id="password" 
-                                            required>
-                                    <span class="w3-right w3-padding w3-hide-small"><a href="#">Se te olvidó tu contraseña?</a></span>
-                                    <button class="w3-button w3-block w3-green w3-section w3-padding" 
-                                            type="submit" 
-                                            data-toggle="tooltip" 
-                                            title="Iniciar sesión">Login</button>
-                                    <hr class="separators">
-                                    <a class="google btn" 
-                                        href="{% url 'social:begin' 'google-oauth2' %}"
-                                        data-toggle="tooltip" 
-                                        title="Iniciar sesión con google">
-                                        <i class="fa fa-google fa-fw"></i> Iniciar sesión con Google+
-                                    </a>
+<body>   
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5" id="centrado">
+            <div class="card-body p-0">
+                <div class="row">                
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="p-5">
+                            <div class="text-center" >
+                                <h1 class="h4 text-gray-900 mb-4">Crear usuarios</h1>
+                            </div>
+                            <form  method="POST" >
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {% bootstrap_form form %}
+                                    {% bootstrap_form form2 %}
                                 </div>
-                            </form>            
-                        </form>
-                        {% endblock content %}
-
+                                <button type="submit" class="btn btn-success  btn-user btn-block">Guardar usuarios</button>
+                            </form>           
+                        </div>                      
+                        <div class="col-1"></div> 
                     </div>
-                    <form class="w3-container">
-                        <div class="fb-login-button" 
-                            data-max-rows="1" data-size="large" 
-                            data-button-type="continue_with" 
-                            data-show-faces="false" 
-                            data-auto-logout-link="false" 
-                            data-use-continue-as="false">
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
-        <div class="w3-third">
-            <img src=""> 
-            <a href="/users/createUser.html" 
-                class="w3-button w3-right w3-gray w3-section w3-padding" 
-                type="submit"
-                data-toggle="tooltip" 
-              	title="Registrarse">Registrarse</a>
-        </div>
     </div>
-
-</body>
-
+    </body>
+{% endblock %}
