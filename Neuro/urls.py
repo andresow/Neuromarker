@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('product.urls')),
     url(r'^', include('users.urls')),
+    url(r'^', include('nodes.urls')),
     url(r'^oauth/', include('social_django.urls', namespace='social')), 
 	url(r'^login/', userLogin, name="userLogin"),
 	url(r'^success/', success, name="userSuccess"),

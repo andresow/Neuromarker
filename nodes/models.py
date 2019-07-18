@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Nodes(models.Model):
 
@@ -9,7 +10,7 @@ class Nodes(models.Model):
 
 class Node_father(models.Model):
     
-    node =  models.OneToOneField(Nodes, primary_key=True)
+    node =  models.OneToOneField(Nodes, primary_key=True, on_delete=models.CASCADE)
     initial_date = models.DateField()
     final_date = models.DateField()
 

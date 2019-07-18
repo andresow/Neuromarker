@@ -1,0 +1,31 @@
+{% extends 'base/checkout.html' %}
+{% block main %}
+{% load bootstrap4 %}
+
+<body>   
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5" id="centrado">
+            <div class="card-body p-0">
+                <div class="row">                
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="p-5">
+                            <div class="text-center" >
+                                <h1 class="h4 text-gray-900 mb-4">Agregar nodo</h1>
+                            </div>
+                            <form  method="POST" >
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {% bootstrap_form form %}
+                                </div>
+                                <button type="submit" class="btn btn-success  btn-user btn-block">Guardar Nodo</button>
+                            </form>           
+                        </div>                      
+                        <div class="col-1"></div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}

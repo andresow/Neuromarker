@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'product',
     'users',
+    'nodes',
     'bootstrap4',
     'crispy_forms',
     'social_django'
@@ -92,11 +93,11 @@ WSGI_APPLICATION = 'Neuro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'neuro',
+        'NAME': 'postgres',
         'USER' : 'postgres',
-        'PASSWORD': '24603759',
+        'PASSWORD': 'postgres',
         'HOST' : 'localhost',
-        'PORT' : 5432,    
+        'PORT' : 5433,    
     } 
 }
 
