@@ -4,20 +4,30 @@
 
 <div class="container">
     <div class="Row">
+
+        <!--Imagen-->
         <div class="col-md-6">
-            <img src="../../img/addImage.png">
+            <img style="width: 100%; float: left;" src="../../static/img/addImage.png">
         </div>
+
         <div class="col-md-6">
-            <div class="Row">
-                {% bootstrap_form form %}
-            </div>
-            <div class="Row">
-                <button type="submit" class="primary-btn">Publicar</button>
-            </div>
+            <form method="POST">
+
+                {% csrf_token %}
+                <!--Token-->
+                <!--DIV DE IMAGEN-->
+
+
+                <!--Formulario-->
+
+                <div class="Row">
+                    {% bootstrap_form form %}
+                </div>
+                <div class="Row">
+                    <button type="submit" class="primary-btn">Publicar</button>
+                </div>
+            </form>
         </div>
+
     </div>
-
-    <img style="width: 100%; float: left;" src="../../img/addImage.png">
-
-</div>
-{% endblock %}
+    {% endblock %}
