@@ -1,0 +1,23 @@
+{% extends 'base/checkout.html' %}
+{% block main %}
+{% load bootstrap4 %}
+
+<div class="container">
+    <div class="Row">
+        <div class="col-md-6">
+            <img src="../../img/addImage.png">
+        </div>
+        <div class="col-md-6">
+            <div class="Row">
+                {% bootstrap_form form %}
+            </div>
+            <div class="Row">
+                <button type="submit" class="primary-btn">Publicar</button>
+            </div>
+        </div>
+    </div>
+
+    <img style="width: 100%; float: left;" src="../../img/addImage.png">
+
+</div>
+{% endblock %}
