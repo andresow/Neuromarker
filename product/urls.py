@@ -4,10 +4,10 @@ from product.views import *
 urlpatterns = [
 
     url(r'products/index.html', index),
-    url(r'products/products.html', products),
+    url(r'products/list_products.html', listProduct, name='products_list'),
     url(r'products/checkout.html', checkout),
-    url(r'products/newProduct.html', createProduct),
-    url(r'products/product-page.html', productPage),
-
+    url(r'products/newProduct.html', createProduct, name='product_create'),
+    url(r'products/image_product.html/(?P<id>\d+)/$', uploadImage, name='product_image'),
+    url(r'products/view_product.html/(?P<id>\d+)/', viewDetaillProduct, name='product_detaills'),
 
 ]

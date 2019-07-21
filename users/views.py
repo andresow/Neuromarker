@@ -40,13 +40,9 @@ def userLogin(request):
         if request.method == "POST":
             username = request.POST.get('username')
             password = request.POST.get('password')
-            print(username)
             user = authenticate(request, username=username, password=password)
-            print(user)
             if user is not None:
-                print("1.5")
                 login(request, user)
-                print("2")
                 if request.GET.get('next', None):
                     return HttpResponseRedirect(request.GET['next'])
                 return HttpResponseRedirect(reverse('index'))

@@ -93,9 +93,9 @@ WSGI_APPLICATION = 'Neuro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'neuro',
+        'NAME': 'neuro2',
         'USER' : 'postgres',
-        'PASSWORD': 'diana9908',
+        'PASSWORD': '24603759',
         'HOST' : 'localhost',
         'PORT' : 5432,    
     } 

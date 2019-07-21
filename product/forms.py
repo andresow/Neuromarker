@@ -5,7 +5,6 @@ class newProduct(forms.ModelForm):
 
 	class Meta:
 		model = Product
-		INTEGER_CHOICES= [tuple([x,x]) for x in range(1,19)]
 		CHOICES = [('1', 'Nuevo'), ('2', 'Usado')]
 		fields = [
 				'name',
@@ -14,39 +13,31 @@ class newProduct(forms.ModelForm):
 				'quantity',
 				'restriction',
 				'state',
+				'category',
 		]
 		labels = {
 				'name': 'Nombre',
 				'description': 'Descripción',
 				'value': 'Precio',
 				'quantity': 'Cantidad',
-				'restriction': 'Restricción',
+				'restriction': 'Restricción de edad',
 				'state': 'Estado de uso',
+				'category': 'Categoria',
+
 		}
 		widgets = {
 				'name':forms.TextInput(attrs={'class':'form-control form-control-user'}),
 				'description': forms.Textarea(),
 				'value':forms.NumberInput(), 
 				'quantity':forms.NumberInput(), 
-				'restriction':forms.Select(choices=INTEGER_CHOICES),
 				'state':forms.Select(choices=CHOICES),
+				'category':forms.TextInput(attrs={'class':'form-control form-control-user'}),
 		}
 
-# class ProfileForm(forms.ModelForm):
-
-# 	class Meta:
-		
-# 		model = Profile
-
-# 		fields = [    
-# 				'birthday',
-# 				'address',
-# 		]
-# 		labels = {
-# 				'birthday': 'Fecha de nacimiento',
-# 				'address': 'Direccion',
-# 		}
-# 		widgets = {
-# 				'birthday':forms.DateInput(attrs={'class':'form-control  form-control-user', 'type':'date','id':'myDate','value':'aaaa-mm-dd'}),
-# 				'address':forms.TextInput(attrs={'class':'form-control form-control-user'}),
-# 		}
+       
+class ImageForm(forms.Form):
+    
+ filename = forms.CharField(max_length=100)
+ docfile = forms.ImageField(
+        label='Selecciona una imagen'
+    )

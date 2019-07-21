@@ -1,0 +1,57 @@
+{% extends 'base/checkout.html' %}
+{%load staticfiles %}
+{% block main %}
+<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!--  Product Details -->
+				<div class="product product-details clearfix">
+					<div class="col-md-6">
+						<div id="product-main-view" class="slick-initialized slick-slider">
+							<div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 1820px;"><div class="product-view slick-slide" data-slick-index="0" aria-hidden="true" tabindex="-1" style="width: 455px; position: relative; left: 0px; top: 0px; z-index: 998; opacity: 0; overflow: hidden; transition: opacity 300ms ease 0s;">
+							<img role="presentation" src="../../../static/{{product.picture}}" class="zoomImg" style="position: absolute; top: -335.829px; left: -147.014px; opacity: 0; width: 1200px; height: 1200px; border: none; max-width: none; max-height: none;"></div><div class="product-view slick-slide slick-current slick-active" data-slick-index="1" aria-hidden="false" tabindex="0" style="width: 455px; position: relative; left: -455px; top: 0px; z-index: 999; opacity: 1; overflow: hidden;">
+								<img src="../../../static/{{product.picture}}" alt="">
+                            <img role="presentation" src="../../../static/{{product.picture}}" class="zoomImg" style="position: absolute; top: 0px; left: 0px; opacity: 0; width: 1200px; height: 1200px; border: none; max-width: none; max-height: none;"></div>
+                        </div>
+                            </div>
+                        </div>
+					</div>
+					<div class="col-md-6">
+						<div class="product-body">
+							<div class="product-label">
+								<span>New</span>
+							</div>
+							<h2 class="product-name">{{product.name}}</h2>
+							<h3 class="product-price">$ {{product.value}} </h3>
+							<div>
+								<div class="product-rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star-o empty"></i>
+								</div>
+							</div>
+							<p><strong>Disponible en:</strong> In Stock</p>
+							<p><strong>Ofertado por:</strong> Tienda padre</p>
+							<p>Descripción: {{product.description}}</p>
+							<div class="product-btns">
+								<div class="qty-input">
+									<span class="text-uppercase">Cantidad: </span>
+									<input class="input" type="number">
+								</div>
+								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i>Añadir a mi carrito</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Product Details -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+    </div>
+
+    {% endblock %}

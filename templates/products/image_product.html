@@ -1,0 +1,57 @@
+{% extends 'base/checkout.html' %}
+{%load staticfiles %}
+{% block main %}
+{% load bootstrap4 %}
+
+<body>   
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5" id="centrado">
+            <div class="card-body p-0">
+                <div class="row">                
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="p-5">
+                            <div class="text-center" >
+                                <h1 class="h4 text-gray-900 mb-4">Agregar imagen del producto {{product.name}}</h1>
+                            </div>
+                            <form  method="POST" enctype="multipart/form-data" >
+                                <div class="form-group">
+                                    {% bootstrap_form form %}
+                                    {% csrf_token %}
+
+                                </div>
+                                <button type="submit" class="btn btn-success  btn-user btn-block">Guardar imagen</button>
+                            </form>           
+                        </div>                      
+                        <div class="col-1"></div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+                <div class="card-body p-0">
+                    <div class="row">                
+                        <div class="col-1"></div>
+                        <div class="col-10">
+                            <div class="p-5">
+                                    <div class="card shadow mb-4">
+                                            <div class="card-header py-3">
+                                              <h6 class="m-0 font-weight-bold text-primary"></h6>
+                                            </div>
+                                            <div class="text-center">
+                                                    {% if product %}
+                                                    <img src="../../../static/{{product.picture}}" class="img-fluid rounded " alt="Imagen del producto">
+                                                    {% endif %}
+                                            </div>
+                                          </div>   
+                                                          
+                            <div class="col-1"></div> 
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </body>
+
+{% endblock %}

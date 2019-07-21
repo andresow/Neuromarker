@@ -7,17 +7,15 @@ class NodesForm(forms.ModelForm):
 	class Meta:
 		model = Nodes
 		fields = [
-				'is_red',
 				'name',
 				'percentage_commission',
 		]
 		labels = {
-				'is_red': 'Propietario de red',
-				'name': 'Nombre',
-				'percentage_commission': 'Porcentaje de comision',
+				'name': 'Nombre de la tienda',
+				'percentage_commission': 'Porcentaje de comision para tus vendedores',
 		}
 		widgets = {
 				'name':forms.TextInput(attrs={'class':'form-control form-control-user'}),
-				'percentage_commission':forms.TextInput(attrs={'class':'form-control form-control-user'}),
+				'percentage_commission':forms.NumberInput(),
 	    }
 			
