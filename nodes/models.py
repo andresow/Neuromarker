@@ -11,7 +11,7 @@ class Nodes(models.Model):
 
 class Node_father(models.Model):
     
-    node =  models.OneToOneField(Nodes, primary_key=True, on_delete=models.CASCADE)
+    node =  models.ForeignKey(Nodes, primary_key=True, on_delete=models.CASCADE)
     initial_date = models.DateField(("Date"), default=datetime.date.today)
     final_date = models.DateField(null=True)
 

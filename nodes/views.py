@@ -5,6 +5,10 @@ from django.urls import reverse_lazy,reverse
 from django.contrib import messages
 from nodes.forms import NodesForm
 from nodes.models import Nodes, Node_father
+from django.contrib.auth.models import User
+import json
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 
@@ -27,4 +31,21 @@ def createNode(request):
         context = {'form':form} 
     return render(request,'nodes/create_node.html', context) 
 
+def listNodes(request):
+
+    nodes = Nodes.objects.all().filter(user_id=request.user.id)
+    user = User.objects.all()
+    print(nodes)
+    context = {'nodes':nodes,'user':user }
+    return render(request,'nodes/list_node.html',context)
+
+@csrf_exempt
+def editComission(request):
+    print("papitas12")
+    if request.method == "POST": #os request.GET()
+        print("papitas1")
+        if request.is_ajax():
+            print("papitas")
+    return HttpResponse(json.dumps(data), content_type="application/json")
+    
         

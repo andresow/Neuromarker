@@ -12,6 +12,7 @@ class Product(models.Model):
     state = models.CharField(max_length=20)
     category = models.CharField(max_length=200)
     picture = models.ImageField(null=True)
+    discount = models.IntegerField(default=0)
 
     def __str__(self):
         return '{}'.format(str(self.id) + self.name)

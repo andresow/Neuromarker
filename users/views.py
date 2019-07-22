@@ -5,6 +5,7 @@ from django.urls import reverse_lazy,reverse
 from django.contrib import messages
 from users.forms import UserForm, ProfileForm
 from users.models import Profile
+from nodes.models import Nodes
 from django.contrib.auth.models import User
 from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout

@@ -1,0 +1,104 @@
+{% extends 'base/checkout.html' %}
+{% block main %}
+{% load bootstrap4 %}
+<body>   
+        <div class="container">
+                <div class="card-body p-0">
+                    <div class="row">                
+                        <div class="col-12">
+                           <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Lista de nodos registrados</h6>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                      <thead>
+                        <tr role="row"><th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" aria-sort="descending" style="width: 99px;">Nombre</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Distribuidor: activate to sort column ascending" style="width: 157px;">Apellido</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Nickname: activate to sort column ascending" style="width: 70px;">Nickname</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending" style="width: 31px;">Email</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="% Comision: activate to sort column ascending" style="width: 68px;">% Comision</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Es red: activate to sort column ascending" style="width: 67px;">Es red</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Acciones: activate to sort column ascending" style="width: 90px;">Acciones</th></tr>
+                      </thead>
+                      <tfoot>
+                      </tfoot>
+                      {% if nodes %}
+                      {% for nodes in nodes %}
+                      <tbody>             
+                      <tr role="row" class="odd"  id="registro_item" >
+                          <td>{{nodes.user.first_name}}</td>
+                          <td>{{nodes.user.last_name}}</td>
+                          <td>{{nodes.user.username}}</td>
+                          <td>{{nodes.user.email}}</td>
+                          <td>{{nodes.percentage_commission}}</td>
+                          <td>{{nodes.is_red}}</td>
+                          <td><a href="#" 
+                            data-toggle="tooltip" 
+                            title="Desvincular de mi red">
+                            <button class="btn btn-primary  btn-circle btn-sm">
+                            <i class="fa fa-trash"></i>
+                            </button>
+                            </a>
+                            <a href="" 
+                            data-toggle="tooltip" 
+                            title="Editar porcentaje de comisiones">
+                            <button class="btn btn-primary  btn-circle btn-sm">
+                            <i class="fas fa-edit"></i>
+                            </button>
+                            </a>
+                            <a href="#" 
+                            data-toggle="tooltip" 
+                            title="Aumentar cantidad">
+                            <button class="btn btn-primary  btn-circle btn-sm" data-toggle="modal"  data-target="#exampleModal">
+                            <i class="fas fa-plus"></i>
+                            </button>
+                            </a>
+                        </td>
+                        </tr>
+                    </tr>
+                </tbody>
+                        {% endfor %}
+                        {% else %}
+                        <h1 class="black-color">No hay nodos en tu tienda</h1>
+                        {% endif %}
+                    </table></div>
+                  </div>
+                </div>
+              </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+</body>
+<!-- MODAL -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar comisiones</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Ingrese el porcentaje de las comisiones:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Modificar comision</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); 
+  var recipient = button.data('whatever');
+  var modal = $(this);
+  modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
+</script>
+{% endblock %}

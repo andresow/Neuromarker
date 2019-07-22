@@ -27,11 +27,9 @@ def createProduct(request):
                 if form.is_valid():
                     form.save()
                     value = Node_father.objects.get(node_id=Nodes.objects.get(user_id=request.user.id).id).node_id
-                    productId = Product.objects.last().id
-                    print(productId)
-                    product = Product.objects.filter(id = productId)
+                    product = Product.objects.get(id=Product.objects.last().id)
                     product.node_id = value
-                    print(Product.objects.filter(node_id=3))
+                    product.save()         
                     messages.success(request,"Producto creado exitosamente")
                 return HttpResponseRedirect(reverse('product_image', args=[Product.objects.last().id]))
             else:
