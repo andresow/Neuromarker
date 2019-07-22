@@ -42,6 +42,32 @@
                             <i class="fa fa-percent"></i>
                             </button>
                             </a>
+                            <!-- MODAL -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Editar comisiones</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <form method="POST" action="/nodes/list_comission.html/{{nodes.id}}/" id="post_commission" >
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                      <label for="recipients-name" class="col-form-label">Ingrese el porcentaje de las comisiones:</label>
+                                      <input type="text" class="form-control" id="recipient-name" name="recipient-name">
+                                      <button type="submit" class="primary-btn">Modificar comision</button>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
                             <a href="#" 
                             data-toggle="tooltip" 
                             title="Aumentar cantidad">
@@ -66,32 +92,6 @@
                 </div>
         </div>
 </body>
-<!-- MODAL -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar comisiones</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="/nodes/list_comission.html/" id="post_commission" >
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="recipients-name" class="col-form-label">Ingrese el porcentaje de las comisiones:</label>
-            <input type="text" class="form-control" id="recipient-name" name="recipient-name">
-            <button type="submit" class="primary-btn">Modificar comision</button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 $('#exampleModal').on('show.bs.modal', function (event) {

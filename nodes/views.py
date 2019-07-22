@@ -40,12 +40,11 @@ def listNodes(request):
     return render(request,'nodes/list_node.html',context)
 
 @csrf_exempt
-def editComission(request):
-    print("papitas12")
+def editComission(request, id):
     if request.method == "POST": #os request.GET()
-        print("papitas1")
-        if request.is_ajax():
-            print("papitas")
-    return HttpResponse(json.dumps(data), content_type="application/json")
-    
-        
+        node = Nodes.objects.all().filter(id=id)
+        for object in node:
+            object.percentage_commission = request.POST['recipient-name']
+            object.save()
+        return render(request,'nodes/list_node.html')
+    return render(request,'nodes/list_node.html')   
