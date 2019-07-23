@@ -7,6 +7,8 @@ from django.contrib import messages
 from product.models import Product, Image
 from nodes.models import Nodes, Node_father
 from django.views.generic import ListView,CreateView, UpdateView, DeleteView
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -73,8 +75,28 @@ def listProduct(request):
 		context = {'products':product}
 		return render(request,'products/list_products.html',context)
 
+def listProducts(request):
+
+    nodes = Nodes.objects.get(user_id=request.user.id)
+    products = Product.objects.all().filter(node_id=nodes.id)
+    print(nodes.id)
+    context = {'products':products}
+    print(products)
+    return render(request,'products/list_my_product.html',context)
+
 def viewDetaillProduct(request, id):
 
 		product = Product.objects.get(id=id)
 		context = {'product':product}
 		return render(request,'products/view_product.html',context)
+
+
+@csrf_exempt
+def editQuantity(request, id):
+    if request.method == "POST": #os request.GET()
+        product = Product.objects.all().filter(id=id)
+        for object in product:
+            object.quantity = object.quantity + int(request.POST['recipient-name'])
+            object.save()
+        return render(request,'products/list_my_product.html')
+    return render(request,'products/list_my_product.html')   

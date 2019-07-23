@@ -1,0 +1,120 @@
+{% extends 'base/checkout.html' %}
+{% block main %}
+{% load bootstrap4 %}
+<body>   
+        <div class="container">
+                <div class="card-body p-0">
+                    <div class="row">                
+                        <div class="col-12">
+                           <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Lista de productos registrados</h6>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                      <thead>
+                        <tr role="row"><th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" aria-sort="descending" style="width: 99px;">Nombre</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Distribuidor: activate to sort column ascending" style="width: 157px;">Descripción</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Nickname: activate to sort column ascending" style="width: 70px;">Valor</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="quantity: activate to sort column ascending" style="width: 31px;">Cantidad</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="category: activate to sort column ascending" style="width: 68px;">Categoria</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="products: activate to sort column ascending" style="width: 67px;">Descuento</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Acciones: activate to sort column ascending" style="width: 90px;">Acciones</th></tr>
+                      </thead>
+                      <tfoot>
+                      </tfoot>
+                      {% if products %}
+                      {% for products in products %}
+                      <tbody>             
+                      <tr role="row" class="odd"  id="registro_item" >
+                          <td>{{products.name}}</td>
+                          <td>{{products.description}}</td>
+                          <td>{{products.value}}</td>
+                          <td>{{products.quantity}}</td>
+                          <td>{{products.category}}</td>
+                          <td>{{products.discount}}</td>
+                          <td><a href="#" 
+                            data-toggle="tooltip" 
+                            title="Desvincular de mi red">
+                            <button class="primary-btn  btn-circle btn-sm">
+                            <i class="fa fa-trash"></i>
+                            </button>
+                            </a>
+                            <a href="" 
+                            data-toggle="tooltip" 
+                            title="Editar porcentaje de comisiones">
+                            <button class="primary-btn  btn-circle btn-sm">
+                            <i class="fa fa-percent"></i>
+                            </button>
+                            </a>
+                            <!-- MODAL -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Aumentar cantidad</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <form method="POST" action="/products/more_quantity.html/{{products.id}}/" id="post_commission" >
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                      <label for="recipients-name" class="col-form-label">Ingrese la cantidad de productos:</label>
+                                      <input type="number" class="form-control" id="recipient-name" name="recipient-name">
+                                      <button type="submit" class="primary-btn">Aumentar cantidad</button>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            <a href="#" 
+                            data-toggle="tooltip" 
+                            title="Aumentar cantidad">
+                            <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"  data-target="#exampleModal">
+                            <i class="fa fa-percent"></i>
+                            </button>
+                            </a>
+                        </td>
+                        </tr>
+                    </tr>
+                </tbody>
+                        {% endfor %}
+                        {% else %}
+                        <h1 class="black-color">No hay productos registrados en tu tienda</h1>
+                        {% endif %}
+                    </table></div>
+                  </div>
+                </div>
+              </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+</body>
+
+<script>
+$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); 
+  var recipient = button.data('whatever');
+  var modal = $(this);
+  modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
+
+$(document).submit( function(e){
+    e.preventDefault();
+    document.getElementById("recipient-name").value = createJson();
+    $.ajax({
+      url:$(this).attr('action'),
+      type:$(this).attr('method'),
+      data:{        
+        csrfmiddlewaretoken:$('{{ csrf_token }}'),
+        commission:$('#recipient-name').val()
+      },
+      success: succesRequest
+    });
+});
+
+</script>
+{% endblock %}
