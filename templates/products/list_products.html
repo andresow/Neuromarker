@@ -31,10 +31,9 @@
 					<div id="store">
                             {% if products %}
                             {% for product in products %}
-						<div class="row">
 							<!-- Product Single -->
-							<div class="col-md-4 col-sm-6 col-xs-6">
-								<div class="product product-single">
+							<ul class="col-md-4 col-sm-6 col-xs-6">
+								<li><div class="product product-single">
 									<div class="product-thumb">
                                             <a href="{% url 'product_detaills' id=product.id %}">
                                             <button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista previa</button></a>
@@ -59,9 +58,8 @@
 											<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>
 										</div>
 									</div>
-								</div>
-							</div>
-						</div>
+								</div></li>
+							</ul>
                         {% endfor %}
                         {% else %}
                         <h1 class="black-color">No hay productos disponibles</h1>
