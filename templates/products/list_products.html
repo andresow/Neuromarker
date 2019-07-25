@@ -18,7 +18,8 @@
 									style="display: none">
 							<h3 class="aside-title">Filtrar por categorias</h3>
 							<ul class="list-links">
-								<li><button type="submit"> <a href="#" id='Ropa' value='Ropa' onclick='getProductsByCategory(this.id)'>Nike</a></button></li>
+								<li><a id='Ropa' value='Ropa' onclick='getProductsByCategory(this.id)'>Ropa</a>
+									<button type="submit" id="search-category" onclick="getProductsByCategory('Ropa')">PRUEBA</button></li>
 								<li><a type='submit' href="#">Adidas</a></li>
 								<li><a type='submit' href="#">Polo</a></li>
 								<li><a type='submit' href="#">Lacost</a></li>
@@ -87,7 +88,7 @@
 			console.log(document.getElementById("categoryIn").value)
 		}
 
-		$("#search-category").submit(function(e){
+		$("#Ropa").click(function(e){
 			console.log("Entro")
 			e.preventDefault();
 			$.ajax({
@@ -98,10 +99,34 @@
 				},
 				success: function(json){
 					$('#store').empty();
+					console.log("Entroalsuccess")
 					console.log(json);
+					for(var i=0; i<json.length; i++){
+
+					}
 					/*$('<ul> </ul>',{
 
 					})*/
+				}
+			})	
+		})
+
+		$("#search-category").submit(function(e){
+			console.log("Entro")
+			$('#store').empty();
+			e.preventDefault();
+			$.ajax({
+				url:$(this).attr('action'),
+				type:$(this).attr('method'),
+				data:{
+					categoryIn : $("#categoryIn").val()
+				},
+				success: function(json){
+					var queryhtml = '';
+					for(var i=0; i<json.length; i++){
+						queryhtml += '<ul class="col-md-4 col-sm-6 col-xs-w"><li><div class="product product-single">			<div class="product-thumb"><a href=""><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista previa</button></a><img src="../../../static/'+json[i].picture+'" class="img-fluid rounded " alt=""></div><div class="product-body"><h3 class="product-price">$ '+json[i].name+' </h3><h3 class="product-price">Categoria: '+json[i].category+' </h3>	<div class="product-rating">					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star-o empty"></i>				</div>				<h3 class="product-name"><a href="#">$ '+json[i].value+'</a></h3>				<div class="product-btns">					<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>					<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>					<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>				</div>			</div>		</div>	</li></ul>';
+					}
+					$("#store").html(queryhtml);
 				}
 			})
 		})
