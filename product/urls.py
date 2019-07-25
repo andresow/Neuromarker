@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'products/view_product.html/(?P<id>\d+)/', viewDetaillProduct, name='product_detaills'),
     url(r'products/list_my_products.html', listProducts, name='list_products'),
     url(r'products/more_quantity.html/(?P<id>\d+)/', editQuantity, name='edit_quantity'),
+    url(r'products/get_products_by_category/', listProductsByCategory, name='get_products_by_category'),
 
 ]

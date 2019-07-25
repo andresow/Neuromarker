@@ -10,6 +10,11 @@ from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
+from django.core.serializers import serialize
+import json
+
 # Create your views here.
 
 def index(request):
@@ -99,4 +104,17 @@ def editQuantity(request, id):
             object.quantity = object.quantity + int(request.POST['recipient-name'])
             object.save()
         return render(request,'products/list_my_product.html')
-    return render(request,'products/list_my_product.html')   
+    return render(request,'products/list_my_product.html')
+
+def listProductsByCategory(request):
+    if request.is_ajax:
+        if request.method == 'GET':
+            categoryIn = request.GET.get('categoryIn')
+            print("funciona? : "+categoryIn)
+            products = Product.objects.all().filter(category=categoryIn)
+            products = [ product_serializer(product) for product in products]
+            return HttpResponse(json.dumps(products,cls=DjangoJSONEncoder), content_type = "application/json")
+
+def product_serializer(product):
+    print(product.picture)
+    return {'id': product.id, 'name': product.name, 'category': product.category, 'value': product.value, 'picture':str(product.picture)}

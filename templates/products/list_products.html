@@ -11,13 +11,19 @@
 
 					<!-- aside widget -->
 					<div class="aside">
-						<h3 class="aside-title">Filtrar por categorias</h3>
-						<ul class="list-links">
-							<li><a href="#">Nike</a></li>
-							<li><a href="#">Adidas</a></li>
-							<li><a href="#">Polo</a></li>
-							<li><a href="#">Lacost</a></li>
-						</ul>
+						<form method="GET" action="/products/get_products_by_category/" id="search-category">
+							<input type="text" 
+									name="categoryIn" 
+									id="categoryIn" 
+									style="display: none">
+							<h3 class="aside-title">Filtrar por categorias</h3>
+							<ul class="list-links">
+								<li><button type="submit"> <a href="#" id='Ropa' value='Ropa' onclick='getProductsByCategory(this.id)'>Nike</a></button></li>
+								<li><a type='submit' href="#">Adidas</a></li>
+								<li><a type='submit' href="#">Polo</a></li>
+								<li><a type='submit' href="#">Lacost</a></li>
+							</ul>							
+						</form>						
 					</div>
 					<!-- /aside widget -->
 				</div>
@@ -32,7 +38,7 @@
                             {% if products %}
                             {% for product in products %}
 							<!-- Product Single -->
-							<ul class="col-md-4 col-sm-6 col-xs-6">
+							<ul class="col-md-4 col-sm-6 col-xs-w">
 								<li><div class="product product-single">
 									<div class="product-thumb">
                                             <a href="{% url 'product_detaills' id=product.id %}">
@@ -73,5 +79,32 @@
 		</div>
 		<!-- /container -->
 	</div>
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script type="text/javascript">
+		function getProductsByCategory(categoryIn){
+			document.getElementById("categoryIn").value = categoryIn;
+			console.log("salio")
+			console.log(document.getElementById("categoryIn").value)
+		}
+
+		$("#search-category").submit(function(e){
+			console.log("Entro")
+			e.preventDefault();
+			$.ajax({
+				url:$(this).attr('action'),
+				type:$(this).attr('method'),
+				data:{
+					categoryIn : $("#categoryIn").val()
+				},
+				success: function(json){
+					$('#store').empty();
+					console.log(json);
+					/*$('<ul> </ul>',{
+
+					})*/
+				}
+			})
+		})
+	</script>
 
 {% endblock %}
