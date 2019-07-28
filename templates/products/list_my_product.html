@@ -28,18 +28,62 @@
                           <td>{{products.quantity}}</td>
                           <td>{{products.category}}</td>
                           <td>{{products.discount}}</td>
-                          <td><a href="#" 
+                          <td><a href="{{products.id}}" 
                             data-toggle="tooltip" 
                             title="Desvincular de mi red">
                             <button class="primary-btn  btn-circle btn-sm">
                             <i class="fa fa-trash"></i>
                             </button>
                             </a>
-                            <a href="" 
+                            <!-- MODAL -->
+                            <div class="modal fade" id="exampleModalMinus" tabindex="-1" role="dialog" aria-labelledby="exampleModalMinusLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalMinusLabel">Disminuir cantidad</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form method="POST" action="/products/minus_quantity.html/{{products.id}}/" id="post_minus" >
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                          <label for="recipients-name" class="col-form-label">Ingrese la cantidad de productos:</label>
+                                          <input type="number" class="form-control" id="recipient-name" name="recipient-name">
+                                          <input type="number"   style="display:none" class="form-control"  id="mach" name="mach">
+                                          <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalMinus">Disminuir cantidad</button>
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                          <div class="container">
+                                              <!-- The Modal -->
+                                              <div class="modal fade" id="myModalMinus">
+                                                <div class="modal-dialog modal-sm">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h4 class="modal-title">Esta seguro de efectuar estos cambios?</h4>
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>                                             
+                                                    <div class="modal-footer">
+                                                      <button type="submit" class="primary-btn">Confirmar</button>
+                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                    </div>                    
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              
+                                            </div>
+                                        </div>                                
+                                      </form>
+                                    </div>
+                        
+                                  </div>
+                                </div>
+                            </div>
+                            <a href="#" 
                             data-toggle="tooltip" 
-                            title="Editar porcentaje de comisiones">
-                            <button class="primary-btn  btn-circle btn-sm">
-                            <i class="fa fa-percent"></i>
+                            title="Disminuir cantidad">
+                            <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"  data-target="#exampleModalMinus" onclick="getId('{{products.id}}', 1)">
+                            <i class="fa fa-minus"></i>
                             </button>
                             </a>
                             <!-- MODAL -->
@@ -48,7 +92,7 @@
                               <div class="modal-content">
                                 <div class="modal-header">
                                   <h5 class="modal-title" id="exampleModalLabel">Aumentar cantidad</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
@@ -58,21 +102,101 @@
                                     <div class="form-group">
                                       <label for="recipients-name" class="col-form-label">Ingrese la cantidad de productos:</label>
                                       <input type="number" class="form-control" id="recipient-name" name="recipient-name">
-                                      <button type="submit" class="primary-btn">Aumentar cantidad</button>
-                                    </div>
+                                      <input type="number"  style="display:none" class="form-control"  id="mach2" name="mach2">
+                                      <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal">Aumentar cantidad</button>
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                      <div class="container">
+                                          <!-- The Modal -->
+                                          <div class="modal fade" id="myModal">
+                                            <div class="modal-dialog modal-sm">
+                                              <div class="modal-content">
+                                              
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                  <h4 class="modal-title">Esta seguro de efectuar estos cambios?</h4>
+                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>                                             
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                  <button type="submit" class="primary-btn">Confirmar</button>
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                </div>
+                                                
+                                              </div>
+                                            </div>
+                                          </div>
+                                          
+                                        </div>
+                                    </div>                                
                                   </form>
                                 </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                </div>
+
                               </div>
                             </div>
                             </div>
                             <a href="#" 
                             data-toggle="tooltip" 
                             title="Aumentar cantidad">
-                            <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"  data-target="#exampleModal">
+                            <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"  data-target="#exampleModal" onclick="getId('{{products.id}}' , 2)">
+                            <i class="fa fa-plus"></i>
+                            </button>
+                            </a>
+                            <!-- MODAL -->
+                            <div class="modal fade" id="exampleModalDiscount" tabindex="-1" role="dialog" aria-labelledby="exampleModalDiscountLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalMinusLabel">Ingresar descuento</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form method="POST" action="/products/discount_quantity.html/{{products.id}}/" id="post_discount" >
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                          <label for="recipients-name" class="col-form-label">Ingrese el descuento del producto:</label>
+                                          <input type="number" class="form-control" id="recipient-name" name="recipient-name">
+                                          <input type="number"  style="display:none" class="form-control"  id="mach3" name="mach3">
+                                          <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalDiscount">Ingrese el descuento</button>
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                          <div class="container">
+                                              <!-- The Modal -->
+                                              <div class="modal fade" id="myModalDiscount">
+                                                <div class="modal-dialog modal-sm">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h4 class="modal-title">Esta seguro de efectuar estos cambios?</h4>
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>                                             
+                                                    <div class="modal-footer">
+                                                      <button type="submit" class="primary-btn">Confirmar</button>
+                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                    </div>                    
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              
+                                            </div>
+                                        </div>                                
+                                      </form>
+                                    </div>
+
+                                  </div>
+                                </div>
+                            </div>
+                            <a href="#" 
+                            data-toggle="tooltip" 
+                            title="Asignar descuento">
+                            <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"  data-target="#exampleModalDiscount" onclick="getId('{{products.id}}', 3)">
                             <i class="fa fa-percent"></i>
+                            </button>
+                            </a>
+                            <a href="{% url 'product_image' id=products.id %}" 
+                            data-toggle="tooltip" 
+                            title="Actualizar imagen">
+                            <button class="primary-btn  btn-circle btn-sm" >
+                            <i class="fa fa-picture-o"></i>
                             </button>
                             </a>
                         </td>
@@ -94,27 +218,57 @@
 </body>
 
 <script>
-$('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget); 
-  var recipient = button.data('whatever');
-  var modal = $(this);
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
+
+function getId(categoryIn, pos){
+      if(pos == 1){
+        document.getElementById("mach").value = categoryIn;
+      }
+      if(pos == 2){
+        document.getElementById("mach2").value = categoryIn;
+      }
+      if(pos == 3){
+        document.getElementById("mach3").value = categoryIn;
+      }
+}
 
 $(document).submit( function(e){
     e.preventDefault();
     document.getElementById("recipient-name").value = createJson();
+    document.getElementById("mach").value = createJson();
+    document.getElementById("mach2").value = createJson();
+    document.getElementById("mach3").value = createJson();
     $.ajax({
       url:$(this).attr('action'),
       type:$(this).attr('method'),
       data:{        
         csrfmiddlewaretoken:$('{{ csrf_token }}'),
-        commission:$('#recipient-name').val()
+        commission:$('#recipient-name').val(),
+        id:$('#mach').val(),
+        more:$('#mach2').val(),
+        discount:$('#mach3').val(),
+
       },
       success: succesRequest
     });
 });
+
+$(document).submit( function(e){
+    e.preventDefault();
+    document.getElementById("recipient-name").value = createJson();
+    document.getElementById("mach").value = createJson();
+    $.ajax({
+      url:$(this).attr('action'),
+      type:$(this).attr('method'),
+      data:{        
+        csrfmiddlewaretoken:$('{{ csrf_token }}'),
+        commission:$('#recipient-name').val(),
+        id:$('#mach').val(),
+
+      },
+      success: succesRequest
+    });
+});
+
 
 </script>
 {% endblock %}

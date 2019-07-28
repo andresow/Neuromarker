@@ -97,11 +97,37 @@ def viewDetaillProduct(request, id):
 
 
 @csrf_exempt
-def editQuantity(request, id):
+def moreQuantity(request, ide):
     if request.method == "POST": #os request.GET()
-        product = Product.objects.all().filter(id=id)
+        var = request.POST['mach2']
+        print(var + "soy yo soy yo")
+        product = Product.objects.all().filter(id=var)
         for object in product:
             object.quantity = object.quantity + int(request.POST['recipient-name'])
+            object.save()
+        return render(request,'products/list_my_product.html')
+    return render(request,'products/list_my_product.html')
+
+@csrf_exempt
+def discountProduct(request, ide):
+    if request.method == "POST": #os request.GET()
+        var = request.POST['mach3']
+        print(var)
+        product = Product.objects.all().filter(id=var)
+        for object in product:
+            object.discount = int(request.POST['recipient-name'])
+            object.save()
+        return render(request,'products/list_my_product.html')
+    return render(request,'products/list_my_product.html')
+
+@csrf_exempt
+def minusQuantity(request, ide):
+    if request.method == "POST": #os request.GET()
+        var = request.POST['mach']
+        print(var + "soy yo soy yo")
+        product = Product.objects.all().filter(id=var)
+        for object in product:
+            object.quantity = object.quantity - int(request.POST['recipient-name'])
             object.save()
         return render(request,'products/list_my_product.html')
     return render(request,'products/list_my_product.html')

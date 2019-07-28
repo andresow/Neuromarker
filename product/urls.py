@@ -10,7 +10,9 @@ urlpatterns = [
     url(r'products/image_product.html/(?P<id>\d+)/$', uploadImage, name='product_image'),
     url(r'products/view_product.html/(?P<id>\d+)/', viewDetaillProduct, name='product_detaills'),
     url(r'products/list_my_products.html', listProducts, name='list_products'),
-    url(r'products/more_quantity.html/(?P<id>\d+)/', editQuantity, name='edit_quantity'),
+    url(r'products/more_quantity.html/(?P<ide>\d+)/', moreQuantity, name='more_quantity'),
+    url(r'products/minus_quantity.html/(?P<ide>\d+)/', minusQuantity, name='minus_quantity'),
+    url(r'products/discount_quantity.html/(?P<ide>\d+)/', discountProduct, name='discount_product'),
     url(r'products/get_products_by_category/', listProductsByCategory, name='get_products_by_category'),
 
 ]
