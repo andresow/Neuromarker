@@ -5,18 +5,24 @@ import datetime
 class Nodes(models.Model):
 
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    id_father = models.IntegerField(null=True)
     is_red = models.BooleanField(default=True)
     name  = models.TextField(max_length=500, blank=True)
     percentage_commission = models.IntegerField()
+
+    def save_data(self,user,id_father,name,percentage_commission):
+        newNodo = Node(user=user,id_father=id_father, name=name,percentage_commission=percentage_commission)
+        newNodo.save()
 
 class Node_father(models.Model):
     
     node =  models.ForeignKey(Nodes, primary_key=True, on_delete=models.CASCADE)
     initial_date = models.DateField(("Date"), default=datetime.date.today)
     final_date = models.DateField(null=True)
+    generateCode =  models.TextField(max_length=500, blank=True)
 
-    def save_data(self,node):
-        newNodoFather = Node_father(node=node)
+    def save_data(self,node,generateCode):
+        newNodoFather = Node_father(node=node, generateCode=generateCode)
         newNodoFather.save()
 
 class Comission(models.Model):

@@ -19,3 +19,6 @@ class NodesForm(forms.ModelForm):
 				'percentage_commission':forms.NumberInput(),
 	    }
 
+class NodesCodeForm(forms.Form):
+
+	generateCode = forms.CharField(max_length=100)

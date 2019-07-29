@@ -45,7 +45,7 @@ def createProduct(request):
                print("Usted no es una tienda x2")     
     else:
         if Nodes.objects.filter(user_id=request.user.id).exists() == True:         
-            if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=1).id).exists() == True:
+            if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id).exists() == True:
                 form = newProduct()
                 context = {'form':form} 
             else:
@@ -144,3 +144,4 @@ def listProductsByCategory(request):
 def product_serializer(product):
     print(product.picture)
     return {'id': product.id, 'name': product.name, 'category': product.category, 'value': product.value, 'picture':str(product.picture)}
+
