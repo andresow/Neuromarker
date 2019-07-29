@@ -624,26 +624,6 @@
 	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
 	<script >
-	function getId(){
-		alert("la ptm por que no entra")
-      }
-
-	$(document).submit( function(e){
-    e.preventDefault();
-    document.getElementById("code").value = createJson();
-
-    $.ajax({
-      url:$(this).attr('action'),
-      type:$(this).attr('method'),
-      data:{        
-        csrfmiddlewaretoken:$('{{ csrf_token }}'),
-        code:$('#code').val(),
-
-      },
-      success: succesRequest
-    });
-});
-
 	</script>
 	{% endblock %}
 </body>

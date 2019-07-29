@@ -10,8 +10,8 @@ class Nodes(models.Model):
     name  = models.TextField(max_length=500, blank=True)
     percentage_commission = models.IntegerField()
 
-    def save_data(self,user,id_father,name,percentage_commission):
-        newNodo = Node(user=user,id_father=id_father, name=name,percentage_commission=percentage_commission)
+    def save_data(self,is_red,user,id_father,name,percentage_commission):
+        newNodo = Node(user=user,is_red=is_red, name=name,percentage_commission=percentage_commission,id_father=id_father)
         newNodo.save()
 
 class Node_father(models.Model):

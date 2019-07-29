@@ -26,6 +26,7 @@ def createNodeShop(request):
             node.user_id = request.user.id
             node.save()
             Node_father.objects.create(node=Nodes.objects.last(), generateCode=code)
+            node.id_father = Node_father.objects.last().id
             messages.success(request,"Nodo agregado exitosamente")
         return HttpResponseRedirect(reverse('index'))
     else:
@@ -55,10 +56,11 @@ def editComission(request, id):
 @csrf_exempt
 def nodeForCode(request):
     if request.method == "POST": #os request.GET()
-        var =  request.POST['code-rec']
+        var =  request.POST['recipient-name2']   
         nodeFather = Node_father.objects.all().filter(generateCode=var)
-        user = User.objects.all().filter(id=id)
-        Node.objects.create(user=user,id_father=nodeFather.id, name=request.first_name, percentage_commission=nodeFather.percentage_commission)
+        primaryNode = Nodes.objects.all().filter(id_father=nodeFather.id) 
+        user = User.objects.all().filter(id=request.user.id)
+        Nodes.objects.create(user=user,is_red=True, name=request.user.first_name, percentage_commission=primaryNode.percentage_commission,id_father=nodeFather.id)
         print("creo")
         return render(request,'nodes/list_node.html')
     return render(request,'nodes/list_node.html')   
