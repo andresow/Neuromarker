@@ -5,10 +5,10 @@ import datetime
 class Nodes(models.Model):
 
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    id_father = models.IntegerField(null=True)
     is_red = models.BooleanField(default=True)
     name  = models.TextField(max_length=500, blank=True)
     percentage_commission = models.IntegerField()
+    id_father = models.IntegerField(null=True)
 
     def save_data(self,is_red,user,id_father,name,percentage_commission):
         newNodo = Node(user=user,is_red=is_red, name=name,percentage_commission=percentage_commission,id_father=id_father)

@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     return render(request, 'products/index.html')
-    
+
 def createNodeShop(request):
     if request.method == 'POST':
         form = NodesForm(request.POST)
@@ -26,7 +26,8 @@ def createNodeShop(request):
             node.user_id = request.user.id
             node.save()
             Node_father.objects.create(node=Nodes.objects.last(), generateCode=code)
-            node.id_father = Node_father.objects.last().id
+            node.id_father = Node_father.objects.last().node_id
+            node.save()
             messages.success(request,"Nodo agregado exitosamente")
         return HttpResponseRedirect(reverse('index'))
     else:
@@ -58,11 +59,19 @@ def nodeForCode(request):
     if request.method == "POST": #os request.GET()
         var =  request.POST['recipient-name2']   
         nodeFather = Node_father.objects.all().filter(generateCode=var)
-        primaryNode = Nodes.objects.all().filter(id_father=nodeFather.id) 
-        user = User.objects.all().filter(id=request.user.id)
-        Nodes.objects.create(user=user,is_red=True, name=request.user.first_name, percentage_commission=primaryNode.percentage_commission,id_father=nodeFather.id)
-        print("creo")
+        for object in nodeFather:
+            print(percentage_commission(object.node_id))
+            print(object.node_id)
+            user = User.objects.get(id=request.user.id)
+            userName = user.first_name 
+            Nodes.objects.create(user=user,is_red=False, name=userName, percentage_commission=percentage_commission(object.node_id),id_father=object.node_id)
+            print("creo")
         return render(request,'nodes/list_node.html')
-    return render(request,'nodes/list_node.html')   
+    return render(request,'nodes/list_node.html')  
 
-
+def percentage_commission(value):
+    
+    node = Nodes.objects.all().filter(id_father=value) 
+    for object in node:
+        comission = object.percentage_commission
+        return  comission

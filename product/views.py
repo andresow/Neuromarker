@@ -144,4 +144,3 @@ def listProductsByCategory(request):
 def product_serializer(product):
     print(product.picture)
     return {'id': product.id, 'name': product.name, 'category': product.category, 'value': product.value, 'picture':str(product.picture)}
-

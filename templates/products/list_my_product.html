@@ -30,7 +30,7 @@
                           <td>{{products.discount}}</td>
                           <td><a href="{{products.id}}" 
                             data-toggle="tooltip" 
-                            title="Eliminar producto">
+                            title="Desvincular de mi red">
                             <button class="primary-btn  btn-circle btn-sm">
                             <i class="fa fa-trash"></i>
                             </button>
@@ -219,15 +219,15 @@
 
 <script>
 
-function getId(id, pos){
+function getId(categoryIn, pos){
       if(pos == 1){
-        document.getElementById("mach").value = id;
+        document.getElementById("mach").value = categoryIn;
       }
       if(pos == 2){
-        document.getElementById("mach2").value = id;
+        document.getElementById("mach2").value = categoryIn;
       }
       if(pos == 3){
-        document.getElementById("mach3").value = id;
+        document.getElementById("mach3").value = categoryIn;
       }
 }
 
