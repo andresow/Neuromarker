@@ -23,10 +23,9 @@ def createNodeShop(request):
             form.save()
             code = form2['generateCode'].value()
             node = Nodes.objects.all().last()
-            node.user_id = request.user.id
-            node.save()
             Node_father.objects.create(node=Nodes.objects.last(), generateCode=code)
             node.id_father = Node_father.objects.last().node_id
+            node.user_id = request.user.id
             node.save()
             messages.success(request,"Nodo agregado exitosamente")
         return HttpResponseRedirect(reverse('index'))
@@ -38,7 +37,7 @@ def createNodeShop(request):
 
 def listNodes(request):
 
-    nodes = Nodes.objects.all().filter(user_id=request.user.id)
+    nodes = Nodes.objects.all().filter(id_father=request.user.id)
     user = User.objects.all()
     print(nodes)
     context = {'nodes':nodes,'user':user }
@@ -52,13 +51,28 @@ def editComission(request, id):
             object.percentage_commission = request.POST['recipient-name']
             object.save()
         return render(request,'nodes/list_node.html')
-    return render(request,'nodes/list_node.html')   
+    return render(request,'nodes/list_node.html')  
+
+@csrf_exempt
+def deleteNodeMyRed(request, ide):
+    if request.method == "POST": #os request.GET()
+        var = request.POST['mach2']
+        print(var+ "soy yo soy yo")
+        node = Nodes.objects.all().filter(id=var)
+        for object in node:
+            object.id_father = 0
+            object.save()
+        return render(request,'nodes/list_node.html')
+    return render(request,'nodes/list_node.html')  
 
 @csrf_exempt
 def nodeForCode(request):
+    print("voy aqui")
     if request.method == "POST": #os request.GET()
-        var =  request.POST['recipient-name2']   
+        var =  request.POST['recipient-name2'] 
         nodeFather = Node_father.objects.all().filter(generateCode=var)
+        print(var)  
+        print(nodeFather)
         for object in nodeFather:
             print(percentage_commission(object.node_id))
             print(object.node_id)

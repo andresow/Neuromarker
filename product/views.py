@@ -84,9 +84,7 @@ def listProducts(request):
 
     nodes = Nodes.objects.get(user_id=request.user.id)
     products = Product.objects.all().filter(node_id=nodes.id)
-    print(nodes.id)
     context = {'products':products}
-    print(products)
     return render(request,'products/list_my_product.html',context)
 
 def viewDetaillProduct(request, id):
@@ -100,7 +98,6 @@ def viewDetaillProduct(request, id):
 def moreQuantity(request, ide):
     if request.method == "POST": #os request.GET()
         var = request.POST['mach2']
-        print(var + "soy yo soy yo")
         product = Product.objects.all().filter(id=var)
         for object in product:
             object.quantity = object.quantity + int(request.POST['recipient-name'])
@@ -124,7 +121,6 @@ def discountProduct(request, ide):
 def minusQuantity(request, ide):
     if request.method == "POST": #os request.GET()
         var = request.POST['mach']
-        print(var + "soy yo soy yo")
         product = Product.objects.all().filter(id=var)
         for object in product:
             object.quantity = object.quantity - int(request.POST['recipient-name'])
@@ -136,11 +132,9 @@ def listProductsByCategory(request):
     if request.is_ajax:
         if request.method == 'GET':
             categoryIn = request.GET.get('categoryIn')
-            print("funciona? : "+categoryIn)
             products = Product.objects.all().filter(category=categoryIn)
             products = [ product_serializer(product) for product in products]
             return HttpResponse(json.dumps(products,cls=DjangoJSONEncoder), content_type = "application/json")
 
 def product_serializer(product):
-    print(product.picture)
     return {'id': product.id, 'name': product.name, 'category': product.category, 'value': product.value, 'picture':str(product.picture)}

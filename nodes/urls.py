@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'nodes/create_node.html', createNodeShop, name='create_node'),
     url(r'nodes/list_node.html', listNodes, name='list_node'),
     url(r'nodes/list_comission.html/(?P<id>\d+)/', editComission, name='edit_comission'),
+    url(r'nodes/delete_node.html/(?P<ide>\d+)/', deleteNodeMyRed, name='delete_myRed'),
     url(r'nodes/insert_code_father.html', nodeForCode, name='insert_code'),
 
 
