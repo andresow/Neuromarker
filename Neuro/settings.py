@@ -94,9 +94,9 @@ WSGI_APPLICATION = 'Neuro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'neuroWWW2',
         'USER' : 'postgres',
-        'PASSWORD': '24603759',
+        'PASSWORD': 'diana9908',
         'HOST' : 'localhost',
         'PORT' : 5432,    
     } 
@@ -138,7 +138,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://localhost:8000/products/index.html'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://localhost:8000/products/list_products.html'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '800256616174-q8qjuomreclghf99ck5j7dfh89qorg2v.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'hokiaF0LxJ_yCBRczUeEysfT'
