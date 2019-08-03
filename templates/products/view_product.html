@@ -37,13 +37,22 @@
 							<p><strong>Disponible en:</strong> In Stock</p>
 							<p><strong>Ofertado por:</strong> Tienda padre</p>
 							<p>Descripción: {{product.description}}</p>
+							<form method="POST" action="/sales/sales_code/{{product.id}}/" id="post_code_sale" >
+ 									{% csrf_token %}
+
 							<div class="product-btns">
-								<div class="qty-input">
-									<span class="text-uppercase">Cantidad: </span>
-									<input class="input" type="number">
+									<div class="qty-input">
+											<span class="text-uppercase">Cantidad: </span>
+											<input class="input" type="number" id="quantity" name="quantity">
+											<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Añadir a mi carrito</button>
+											<hr>
+											<span class="text-uppercase" id="code">Codigo: </span>
+											<input class="input" type="text" id="codeSale" name="codeSale">
+											<button class="primary-btn add-to-cart"><i class="fa fa-percent" type="button" ></i> Enviar codigo de descuento</button>																
+										</div>
 								</div>
-								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i>Añadir a mi carrito</button>
-							</div>
+							</form> 
+								
 						</div>
 					</div>
 				</div>
@@ -53,5 +62,22 @@
 		</div>
 		<!-- /container -->
     </div>
-
+	<script>
+			$(document).submit( function(e){
+				e.preventDefault();
+				document.getElementById("quantity").value = createJson();
+				document.getElementById("codeSale").value = createJson();
+				$.ajax({
+				  url:$(this).attr('action'),
+				  type:$(this).attr('method'),
+				  data:{        
+					csrfmiddlewaretoken:$('{{ csrf_token }}'),
+					quantitys:$('#quantity').val(),
+					codeSales:$('#codeSale').val()			
+				  },
+				  success: succesRequest
+				});
+			});						
+			
+			</script>
     {% endblock %}

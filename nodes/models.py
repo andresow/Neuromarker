@@ -32,3 +32,7 @@ class Comission(models.Model):
     type_payment = models.TextField(max_length=500, blank=True)
     type_commission = models.TextField(max_length=500, blank=True)
     current_balance = models.IntegerField(null=True)
+
+    def save_data(self,node,generateCode):
+        newComission = Comission(value_commision=value_commision, type_payment=type_payment, type_commission=type_commission, current_balance=current_balance,node=node)
+        newComission.save()
