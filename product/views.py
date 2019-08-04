@@ -45,7 +45,7 @@ def createProduct(request):
                print("Usted no es una tienda x2")     
     else:
         if Nodes.objects.filter(user_id=request.user.id).exists() == True:         
-            if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=1).id).exists() == True:
+            if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id).exists() == True:
                 form = newProduct()
                 context = {'form':form} 
             else:
@@ -84,9 +84,7 @@ def listProducts(request):
 
     nodes = Nodes.objects.get(user_id=request.user.id)
     products = Product.objects.all().filter(node_id=nodes.id)
-    print(nodes.id)
     context = {'products':products}
-    print(products)
     return render(request,'products/list_my_product.html',context)
 
 def viewDetaillProduct(request, id):
@@ -97,11 +95,35 @@ def viewDetaillProduct(request, id):
 
 
 @csrf_exempt
-def editQuantity(request, id):
+def moreQuantity(request, ide):
     if request.method == "POST": #os request.GET()
-        product = Product.objects.all().filter(id=id)
+        var = request.POST['mach2']
+        product = Product.objects.all().filter(id=var)
         for object in product:
             object.quantity = object.quantity + int(request.POST['recipient-name'])
+            object.save()
+        return render(request,'products/list_my_product.html')
+    return render(request,'products/list_my_product.html')
+
+@csrf_exempt
+def discountProduct(request, ide):
+    if request.method == "POST": #os request.GET()
+        var = request.POST['mach3']
+        print(var)
+        product = Product.objects.all().filter(id=var)
+        for object in product:
+            object.discount = int(request.POST['recipient-name'])
+            object.save()
+        return render(request,'products/list_my_product.html')
+    return render(request,'products/list_my_product.html')
+
+@csrf_exempt
+def minusQuantity(request, ide):
+    if request.method == "POST": #os request.GET()
+        var = request.POST['mach']
+        product = Product.objects.all().filter(id=var)
+        for object in product:
+            object.quantity = object.quantity - int(request.POST['recipient-name'])
             object.save()
         return render(request,'products/list_my_product.html')
     return render(request,'products/list_my_product.html')
@@ -110,11 +132,9 @@ def listProductsByCategory(request):
     if request.is_ajax:
         if request.method == 'GET':
             categoryIn = request.GET.get('categoryIn')
-            print("funciona? : "+categoryIn)
             products = Product.objects.all().filter(category=categoryIn)
             products = [ product_serializer(product) for product in products]
             return HttpResponse(json.dumps(products,cls=DjangoJSONEncoder), content_type = "application/json")
 
 def product_serializer(product):
-    print(product.picture)
     return {'id': product.id, 'name': product.name, 'category': product.category, 'value': product.value, 'picture':str(product.picture)}

@@ -6,6 +6,8 @@ class newProduct(forms.ModelForm):
 	class Meta:
 		model = Product
 		CHOICES = [('1', 'Nuevo'), ('2', 'Usado')]
+		CHOICES2 = [('1', 'Mercado'), ('2', 'Salud y belleza'),('3', 'Televisores'),('4', 'Celulares'),('5', 'Informatica'),('6', 'Tecnologia'),('7', 'Electrodomesticos'),('8', 'Colchones'), ('9', 'Hogar'),('10', 'Libros'),('11', 'Moda'),('12', 'Bebés'),('13', 'Jugeteria'),('14', 'Deportes'),('15', 'Llantas'),('16', 'Bebés'),('17', 'Ferreteria'),('18', 'Vehiculos'), ('19', 'Comidas'),('10', 'Otros')
+		]
 		fields = [
 				'name',
 				'description',
@@ -31,7 +33,7 @@ class newProduct(forms.ModelForm):
 				'value':forms.NumberInput(), 
 				'quantity':forms.NumberInput(), 
 				'state':forms.Select(choices=CHOICES),
-				'category':forms.TextInput(attrs={'class':'form-control form-control-user'}),
+				'category':forms.Select(choices=CHOICES2),
 		}
 
        

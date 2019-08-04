@@ -1,9 +1,9 @@
 from django.db import models
-from nodes.models import Nodes, Node_father
+from nodes.models import Nodes
 
 class Product(models.Model):
 
-    node = models.ForeignKey(Node_father, null=True, blank=True, on_delete=models.CASCADE)
+    node = models.ForeignKey(Nodes, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=40)
     description = models.TextField()
     value = models. IntegerField()
