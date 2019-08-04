@@ -203,19 +203,15 @@
 				<div class="menu-nav">
 					<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
 					<ul class="menu-list">
-						<li><a href="/templates/products/list_products.html">Home</a></li>
+						<li><a href="/products/list_products.html">Home</a></li>
 						<script>
-							var i = 0;
-							console.log(i);
-							CHOICES2 = [('1', 'Mercado'), ('2', 'Salud y belleza'),('3', 'Televisores'),('4', 'Celulares'),('5', 'Informatica'),('6', 'Tecnologia'),('7', 'Electrodomesticos'),('8', 'Colchones'), ('9', 'Hogar'),('10', 'Libros'),('11', 'Moda'),('12', 'Bebés'),('13', 'Jugeteria'),('14', 'Deportes'),('15', 'Llantas'),('16', 'Bebés'),('17', 'Ferreteria'),('18', 'Vehiculos'), ('19', 'Comidas'),('10', 'Otros');
-							console.log(CHOICES2.i)
-						
+							CHOICES2 = [('1', 'Mercado'), ('2', 'Salud y belleza'),('3', 'Televisores'),('4', 'Celulares'),('5', 'Informatica'),('6', 'Tecnologia'),('7', 'Electrodomesticos'),('8', 'Colchones'), ('9', 'Hogar'),('10', 'Libros'),('11', 'Moda'),('12', 'Bebés'),('13', 'Jugeteria'),('14', 'Deportes'),('15', 'Llantas'),('16', 'Bebés'),('17', 'Ferreteria'),('18', 'Vehiculos'), ('19', 'Comidas'),('10', 'Otros')];						
 						</script>
 						{% for choice in CHOICES2 %}
-						<li><a href="#">choice.i <i class="fa fa-caret-down"></i></a>
+						<li><a href="#">men2 <i class="fa fa-caret-down"></i></a>
 						</li>
 						{% endfor %}
-						<li><a href="#">Men <i class="fa fa-caret-down"></i></a>
+						<li><a href="/nodes/list_node.html">My store</a>
 						</li>
 						<li><a href="#">Sales</a></li>
 					</ul>
@@ -265,7 +261,7 @@
 						</div>
 						<!-- /footer logo -->
 
-						<p>Neuromarker la tienda de tiendas hecha a la medidad para ti, encuentra lo que quiera y haz parte de una red</p>
+						<p>Neuromarker la tienda de tiendas hecha a la medidad para ti, encuentra lo que quieras y haz parte de una red</p>
 
 					</div>
 				</div>
@@ -277,7 +273,7 @@
 				<!-- footer subscribe -->
 				<div class="col-md-3 col-sm-6 col-xs-6">
 					<div class="footer">
-						<h3 class="footer-header">Ingresa el codigo de tu tiendra padre</h3>
+						<h3 class="footer-header">Ingresa el codigo de tu tienda padre</h3>
 						<p>Neuromarker la tienda de tiendas hecha a la medidad para ti</p>
 							<input class="input" id="code" name="code" placeholder="Ingresa el codigo de tu tiendra padre">
 							<button type="submit" class="primary-btn" onclick="getId()">Registrarse</button>
