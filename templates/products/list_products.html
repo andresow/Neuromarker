@@ -9,6 +9,83 @@
 				<!-- ASIDE -->
 				<div id="aside" class="col-md-3">
 
+					<!--PRUEBA DE MODAL-->
+			<!-- MODAL -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<header align="center">
+						<a class="w3-display-topmiddle"><img src="{% static 'img/logon.png' %}" /></a>
+						<div class="w3-row-padding">
+							<div align="center" class=""> <br>
+								<h5>NIT: 0000000-0</h5>
+								<h5>Régimen común</h5>
+							</div>
+						</div>
+					</header>
+					<div align="left" class="row-padding">
+						<!--INFO FACTURA-->
+						<div class="row-padding">
+							<p><strong>Factura #{{bill.id}}</strong></p>
+							<p> Fecha y Hora</p>
+							<p>{{hora}}</p>
+						</div>
+						<!--INFO VENDEDOR Y METODO DE PAGO-->
+						<p><strong>{{userFullName}}</strong></p>
+						<p>Cond. Pago: CONTADO</p>
+						<div>
+							<table id="bill_table1" class="table responsive">
+								<thead class="thead-dark">
+									<tr>
+										<th>Product's Name</th>
+										<th>Quantity</th>
+										<th>Subtotal</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Ejemplo nombre</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+						<div align="center">
+							<div class="row-padding">
+								<p class="w3-center">INFORMACIÓN TRIBUTARIA</p>
+							</div>
+							<div class="row-padding">
+								<div>
+									<p>RESOLUCIÓN DIAN NO. 500 046612 DE 1200 HASTA 5000</p>
+								</div>
+							</div>
+						</div>
+						<div class="row-padding"> <br>
+							<div class="show-inline-block">
+								<div class="w3-bar">
+									<form method="POST" action="/sales/createSale/{{event.id}}/" id="post_venta">
+										{% csrf_token %}
+										<button type="submit button" class="btn btn-success"
+											title="Finalizar venta">
+											<i class="fa fa-check"></i>Finalizar Venta
+										</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--HREF DE MODAL-->
+		<a href="#" data-toggle="tooltip" title="Factura">
+			<button class="primary-btn  btn-circle btn-sm" data-toggle="modal" data-target="#exampleModal">
+				<i class="fa fa-percent"></i>
+			</button>
+		</a>
+		<!--FIN HREF MODAL-->
 					<!-- aside widget -->
 					<div class="aside">
 						<form method="GET" action="/products/get_products_by_category/" id="search-category">
