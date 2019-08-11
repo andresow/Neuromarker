@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from product.views import *
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
 

@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+from django.urls import reverse_lazy
+from django.contrib.messages import constants as messages
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -46,6 +47,14 @@ INSTALLED_APPS = [
     'sales',
     'social_django'
 ]
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,11 +103,11 @@ WSGI_APPLICATION = 'Neuro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'neuro',
+        'NAME': 'www',
         #'USER' : 'www',
         #'PASSWORD': 'www',
         'USER' : 'postgres',
-        'PASSWORD': 'diana9908',
+        'PASSWORD': '24603759',
         'HOST' : 'localhost',
         'PORT' : 5432,    
     } 
@@ -149,5 +158,4 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'login'
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)

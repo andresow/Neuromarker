@@ -3,9 +3,11 @@ from nodes.models import Nodes, Comission
 from product.models import Product
 from sales.models import Bill, ItemBill
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-    
+
+@login_required(login_url='/login/')   
 def createSalesCode(request, ide):
     if request.method == "POST": #os request.GET()
         codePost = request.POST['codeSale']
