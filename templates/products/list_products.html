@@ -11,80 +11,111 @@
 
 					<!--PRUEBA DE MODAL-->
 			<!-- MODAL -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-			aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<header align="center">
-						<a class="w3-display-topmiddle"><img src="{% static 'img/logon.png' %}" /></a>
-						<div class="w3-row-padding">
-							<div align="center" class=""> <br>
-								<h5>NIT: 0000000-0</h5>
-								<h5>Régimen común</h5>
-							</div>
-						</div>
-					</header>
-					<div align="left" class="row-padding">
-						<!--INFO FACTURA-->
-						<div class="row-padding">
-							<p><strong>Factura #{{bill.id}}</strong></p>
-							<p> Fecha y Hora</p>
-							<p>{{hora}}</p>
-						</div>
-						<!--INFO VENDEDOR Y METODO DE PAGO-->
-						<p><strong>{{userFullName}}</strong></p>
-						<p>Cond. Pago: CONTADO</p>
-						<div>
-							<table id="bill_table1" class="table responsive">
-								<thead class="thead-dark">
-									<tr>
-										<th>Product's Name</th>
-										<th>Quantity</th>
-										<th>Subtotal</th>
-										<th>Total</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Ejemplo nombre</td>
-									</tr>
-								</tbody>
-							</table>
+			      <!-- MODAL -->
+                <div id="printThis">
+                    <div id="MyModal" class="modal fade" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <header align="center">
+                                    <a class="w3-display-topmiddle"><img src="{% static 'img/logon.png' %}" /></a>
+                                    <div class="w3-row-padding">
+                                        <div align="center" class=""> <br>
+                                            <h5>NIT: 0000000-0</h5>
+                                            <h5>Régimen común</h5>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div align="left" class="row-padding">
+                                    <!--INFO FACTURA-->
+                                    <div class="row-padding">
+                                        <p><strong>Factura #{{bill.id}}</strong></p>
+                                        <p> Fecha y Hora</p>
+                                        <p>{{hora}}</p>
+                                    </div>
+                                    <!--INFO VENDEDOR Y METODO DE PAGO-->
+                                    <p><strong>{{userFullName}}</strong></p>
+                                    <p>Cond. Pago: CONTADO</p>
+                                    <div>
+                                        <table id="bill_table1" class="table responsive">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Product's Name</th>
+                                                    <th>Quantity</th>
+                                                    <th>Subtotal</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Ejemplo nombre</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+ 
+                                    </div>
+                                    <div align="center">
+                                        <div class="row-padding">
+                                            <p class="w3-center">INFORMACIÓN TRIBUTARIA</p>
+                                        </div>
+                                        <div class="row-padding">
+                                            <div>
+                                                <p>RESOLUCIÓN DIAN NO. 500 046612 DE 1200 HASTA 5000</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row-padding"> <br>
+                                        <div class="show-inline-block">
+                                            <div class="w3-bar">
+                                                <form method="POST" action="/sales/createSale/{{event.id}}/"
+                                                    id="post_venta">
+                                                    {% csrf_token %}
+                                                    <button type="submit button" class="btn btn-success"
+                                                        title="Finalizar venta">
+                                                        <i class="fa fa-check"></i>Finalizar Venta
+                                                    </button>
+                                                    <button id="btnPrint" type="button" class="btn btn-default">Imprimir</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--HREF DE MODAL-->
+                <a href="#" data-toggle="tooltip" title="Factura">
+                    <button class="primary-btn  btn-circle btn-sm" data-toggle="modal" data-target="#MyModal">
+                        <i class="fa fa-percent"></i>
+                    </button>
+                </a>
+                <!--CODIGO JAVASCRIPT FUNCION IMPRIMIR-->
+                <script>
+                        function getPrintThis() {
+                            printElement(document.getElementById("printThis"));
+                        }
+                        document.getElementById("btnPrint").onclick = getPrintThis;
+    
+                        function printElement(elem) {
+                            var domClone = elem.cloneNode(true);
+    
+                            var $printSection = document.getElementById("printSection");
+    
+                            if (!$printSection) {
+                                var $printSection = document.createElement("div");
+                                $printSection.id = "printSection";
+                                document.body.appendChild($printSection);
+                                console.log('Entra a crear div');
+                            }
+    
+                            $printSection.innerHTML = "";
+                            $printSection.appendChild(domClone);
+                            window.print();
+                        }</script>
+                <!--FIN HREF MODAL-->
 
-						</div>
-						<div align="center">
-							<div class="row-padding">
-								<p class="w3-center">INFORMACIÓN TRIBUTARIA</p>
-							</div>
-							<div class="row-padding">
-								<div>
-									<p>RESOLUCIÓN DIAN NO. 500 046612 DE 1200 HASTA 5000</p>
-								</div>
-							</div>
-						</div>
-						<div class="row-padding"> <br>
-							<div class="show-inline-block">
-								<div class="w3-bar">
-									<form method="POST" action="/sales/createSale/{{event.id}}/" id="post_venta">
-										{% csrf_token %}
-										<button type="submit button" class="btn btn-success"
-											title="Finalizar venta">
-											<i class="fa fa-check"></i>Finalizar Venta
-										</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--HREF DE MODAL-->
-		<a href="#" data-toggle="tooltip" title="Factura">
-			<button class="primary-btn  btn-circle btn-sm" data-toggle="modal" data-target="#exampleModal">
-				<i class="fa fa-percent"></i>
-			</button>
-		</a>
+
 		<!--FIN HREF MODAL-->
 					<!-- aside widget -->
 					<div class="aside">
@@ -112,6 +143,11 @@
 					<!-- store top filter -->
 
 					<!-- STORE -->
+					<form method="GET" action="sales/add_product_cart/" id="add_to_cart">
+						<input type="text" 
+									name="productIn" 
+									id="productIn" 
+									style="display: none">
 					<div id="store">
                             {% if products %}
                             {% for product in products %}
@@ -139,7 +175,7 @@
 										<div class="product-btns">
 											<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 											<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-											<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>
+											<button type='submit' class="primary-btn add-to-cart"><i class="fa fa-shopping-cart" id="{{product.id}}" onclick="getIdProductSelect(this.id)"></i> Agregar al carrito {{product.id}}</button>
 										</div>
 									</div>
 								</div></li>
@@ -149,6 +185,7 @@
                         <h1 class="black-color">No hay productos disponibles</h1>
                         {% endif %}
 					</div>
+					</form>
 					<!-- /STORE -->
 				</div>
 				<!-- /MAIN -->
@@ -165,6 +202,11 @@
 			console.log(document.getElementById("categoryIn").value)
 		}
 
+		function getIdProductSelect(productIn){
+			document.getElementById("productIn").value = productIn;
+			console.log(document.getElementById("productIn").value)
+		}
+
 		$("#Ropa").click(function(e){
 			console.log("Entro")
 			e.preventDefault();
@@ -172,7 +214,7 @@
 				url:$(this).attr('action'),
 				type:$(this).attr('method'),
 				data:{
-					categoryIn : $("#categoryIn").val()
+					categoryIn : '1'
 				},
 				success: function(json){
 					$('#store').empty();
@@ -188,6 +230,24 @@
 			})	
 		})
 
+		$("#add_to_cart").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:$(this).attr('action'),
+				type:$(this).attr('method'),
+				data:{
+					productIn : $("#productIn").val(),
+				},
+				success: function(json){
+					console.log("ntro");
+					console.log(json);
+					console.log("paso :"+json['total_sale']);
+					document.getElementById("total_"+json['id_bill']).innerHTML = json['total_sale'];
+					$('.shopping-cart-list').append('<div class="product product-widget" id="item_'+json["item_cart"]["id_product"]+'">	<div class="product-thumb">			<img src="../../../static/'+json["item_cart"]["picture"]+'" alt="">			</div>			<div class="product-body">				<h3 class="product-price">$'+json["item_cart"]["value"]+' <span class="qty">x'+json["item_cart"]["quantity"]+'</span></h3>				<h2 class="product-name"><a href="#">'+json["item_cart"]["name"]+'</a></h2>			</div>			<button class="cancel-btn"><i class="fa fa-trash"></i></button>		</div>');
+				}
+			})
+		})
+
 		$("#search-category").submit(function(e){
 			console.log("Entro")
 			$('#store').empty();
@@ -201,7 +261,7 @@
 				success: function(json){
 					var queryhtml = '';
 					for(var i=0; i<json.length; i++){
-						queryhtml += '<ul class="col-md-4 col-sm-6 col-xs-w"><li><div class="product product-single">			<div class="product-thumb"><a href=""><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista previa</button></a><img src="../../../static/'+json[i].picture+'" class="img-fluid rounded " alt=""></div><div class="product-body"><h3 class="product-price">$ '+json[i].name+' </h3><h3 class="product-price">Categoria: '+json[i].category+' </h3>	<div class="product-rating">					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star-o empty"></i>				</div>				<h3 class="product-name"><a href="#">$ '+json[i].value+'</a></h3>				<div class="product-btns">					<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>					<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>					<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>				</div>			</div>		</div>	</li></ul>';
+						queryhtml += '<ul class="col-md-4 col-sm-6 col-xs-w"><li><div class="product product-single">			<div class="product-thumb"><a href="/products/view_product.html/'+json[i].id+'/"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista previa</button></a><img src="../../../static/'+json[i].picture+'" class="img-fluid rounded " alt=""></div><div class="product-body"><h3 class="product-price">$ '+json[i].name+' </h3><h3 class="product-price">Categoria: '+json[i].category+' </h3>	<div class="product-rating">					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star-o empty"></i>				</div>				<h3 class="product-name"><a href="#">$ '+json[i].value+'</a></h3>				<div class="product-btns">					<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>					<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>					<button type="submit" class="primary-btn add-to-cart" id="{{product.id}}" onclick="getIdProductSelect('+json[i].id+')"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>				</div>			</div>		</div>	</li></ul>';
 					}
 					$("#store").html(queryhtml);
 				}

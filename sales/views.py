@@ -4,8 +4,17 @@ from product.models import Product
 from sales.models import Bill, ItemBill
 from django.contrib.auth.models import User
 
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
+from django.core.serializers import serialize
+import json
+from django.cotrib.auth.decorators import login_required
+
 # Create your views here.
-    
+
+@login_required(login_url='/login/')
 def createSalesCode(request, ide):
     if request.method == "POST": #os request.GET()
         codePost = request.POST['codeSale']
@@ -48,3 +57,35 @@ def moreComittion(idSeller):
     if count == 100:
         node.percentage_commission = node.percentage_commission + 1
         node.save()
+
+#def getShoppingCart(request):
+ #   if request.is_ajax:
+  #      if request.method == 'GET':
+
+
+def addProductShoppingCart(request):
+    if request.is_ajax:
+        if request.method == 'GET':
+            active_sale = Bill.getActiveSale(request, request.user) #MIRAR LO DEL REQUESTUSER
+            productIn = request.GET.get('productIn')
+            product = Product.objects.get(id=productIn)
+            item_cart = ItemBill.objects.create(Product=product,bill=active_sale,value=product.value, quantity=1)
+            item_cart = item_bill_serializer(item_cart, product.name, str(product.picture))
+            active_sale.total += product.value
+            active_sale.save()
+            context = {'id_bill':active_sale.id,'total_sale':active_sale.total, 'item_cart':item_cart}
+            print(context)
+            return HttpResponse(json.dumps(context,cls=DjangoJSONEncoder), content_type = "application/json")
+
+def item_bill_serializer(item_bill, name_product, picture_product):
+    return {'id': item_bill.id, 'id_product':item_bill.Product.id, 'name': name_product, 'value': item_bill.value, 'quantity': item_bill.quantity, 'picture':picture_product}
+
+def deleteProductShoppingCart(request):
+    if request.is_ajax:
+        if request.method == 'GET':
+            active_sale = Bill.getActiveSale(request, request.user)
+            product_delete = request.GET.get('product_delete')
+            product = Product.objects.get(id=product_delete)
+            item_out = ItemBill.objects.filter(Product=product, bill=active_sale)
+            item_out.delete()
+            return HttpResponse(json.dumps({"success":"true"},cls=DjangoJSONEncoder), content_type = "application/json")

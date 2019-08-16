@@ -118,6 +118,11 @@
 						<!-- /Account -->
 
 						<!-- Cart -->
+						<form method="GET" action="/sales/delet_item_cart/" id="delet_item_cart">
+						<input type="text" 
+									name="product_delete" 
+									id="product_delete" 
+									style="display: none">
 						<li class="header-cart dropdown default-dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 								<div class="header-btns-icon">
@@ -126,31 +131,25 @@
 								</div>
 								<strong class="text-uppercase">Mi carrito:</strong>
 								<br>
-								<span>35.20$</span>
+								<span id="total_{{bill.id}}">{{bill.total}}$</span>
 							</a>
 							<div class="custom-menu">
 								<div id="shopping-cart">
 									<div class="shopping-cart-list">
-										<div class="product product-widget">
+										{% if items_bill %}
+										{% for item_bill in items_bill %}
+										<div class="product product-widget" id="item_{{item_bill.Product.id}}">
 											<div class="product-thumb">
-												<img src="../../../static/img/thumb-product01.jpg" alt="">
+												<img src="../../../static/{{item_bill.Product.picture}}" alt="">
 											</div>
 											<div class="product-body">
-												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+												<h3 class="product-price">${{item_bill.value}} <span class="qty">x{{item_bill.quantity}}</span></h3>
+												<h2 class="product-name"><a href="#">{{item_bill.Product.name}}</a></h2>
 											</div>
-											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
+											<button type="submit" class="cancel-btn" id="{{item_bill.Product.id}}" onclick="getIdButtonDelete(this.id)"><i class="fa fa-trash"></i></button>
 										</div>
-										<div class="product product-widget">
-											<div class="product-thumb">
-												<img src="../../../static/img/img/thumb-product01.jpg" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-											</div>
-											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-										</div>
+										{% endfor %}
+										{% endif %}
 									</div>
 									<div class="shopping-cart-btns">
 										<button class="main-btn">Ver carro</button>
@@ -159,6 +158,7 @@
 								</div>
 							</div>
 						</li>
+						</form>
 						<!-- /Cart -->
 
 						<!-- Mobile nav toggle-->
@@ -310,6 +310,26 @@
 	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
 	<script >
+		function getIdButtonDelete(productIn){
+			document.getElementById("product_delete").value = productIn;
+			console.log(document.getElementById("product_delete").value)
+		}
+		$("#delet_item_cart").submit(function(e){
+			e.preventDefault();
+			console.log("VAELDELETE")
+			console.log(document.getElementById("product_delete").value)
+			$.ajax({
+				url:$(this).attr('action'),
+				type:$(this).attr('method'),
+				data:{
+					product_delete : document.getElementById("product_delete").value,
+				},
+				success: function(json){
+					console.log("ntro");
+					console.log(json);
+				}
+			})
+		})
 	</script>
 	{% endblock %}
 </body>

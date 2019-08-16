@@ -8,6 +8,7 @@ from nodes.models import Nodes, Node_father
 from django.contrib.auth.models import User
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.cotrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -15,6 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     return render(request, 'products/index.html')
 
+@login_required(login_url='/login/')
 def createNodeShop(request):
     if request.method == 'POST':
         form = NodesForm(request.POST)
@@ -35,6 +37,7 @@ def createNodeShop(request):
         context = {'form':form,'form2':form2} 
     return render(request,'nodes/create_node.html', context) 
 
+@login_required(login_url='/login/')
 def listNodes(request):
 
     nodes = Nodes.objects.all().filter(id_father=request.user.id)
@@ -43,6 +46,7 @@ def listNodes(request):
     context = {'nodes':nodes,'user':user }
     return render(request,'nodes/list_node.html',context)
 
+@login_required(login_url='/login/')
 @csrf_exempt
 def editComission(request, id):
     if request.method == "POST": #os request.GET()
@@ -53,6 +57,7 @@ def editComission(request, id):
         return render(request,'nodes/list_node.html')
     return render(request,'nodes/list_node.html')  
 
+@login_required(login_url='/login/')
 @csrf_exempt
 def deleteNodeMyRed(request, ide):
     if request.method == "POST": #os request.GET()
@@ -65,6 +70,7 @@ def deleteNodeMyRed(request, ide):
         return render(request,'nodes/list_node.html')
     return render(request,'nodes/list_node.html')  
 
+@login_required(login_url='/login/')
 @csrf_exempt
 def nodeForCode(request):
     print("voy aqui")

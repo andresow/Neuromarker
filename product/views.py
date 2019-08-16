@@ -6,9 +6,11 @@ from product.forms import newProduct, ImageForm
 from django.contrib import messages
 from product.models import Product, Image
 from nodes.models import Nodes, Node_father
+from sales.models import Bill, ItemBill
 from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.cotrib.auth.decorators import login_required
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
@@ -26,6 +28,7 @@ def checkout(request):
 def productPage(request):
     return render(request, 'products/view_product.html')
 
+@login_required(login_url='/login/')
 def createProduct(request):
     if request.method == 'POST':
         if Nodes.objects.filter(user_id=request.user.id).exists() == True:         
@@ -55,6 +58,7 @@ def createProduct(request):
     return render(request,'products/newProduct.html', context)
 
 
+@login_required(login_url='/login/')
 def uploadImage(request,id):
     if request.method == 'POST':
             form = ImageForm(request.POST, request.FILES)
@@ -74,12 +78,15 @@ def uploadImage(request,id):
             context = {'product':product,'form':form}              
     return render(request, "products/image_product.html",context)
 
+
 def listProduct(request):
+    bill = Bill.getActiveSale(request, request.user)
+    items_bill = ItemBill.objects.filter(bill=bill)
+    product = Product.objects.all()
+    context = {'products':product,'bill':bill, 'items_bill':items_bill}	
+    return render(request,'products/list_products.html',context)
 
-		product = Product.objects.all()
-		context = {'products':product}
-		return render(request,'products/list_products.html',context)
-
+@login_required(login_url='/login/')
 def listProducts(request):
 
     nodes = Nodes.objects.get(user_id=request.user.id)
@@ -87,13 +94,14 @@ def listProducts(request):
     context = {'products':products}
     return render(request,'products/list_my_product.html',context)
 
+
 def viewDetaillProduct(request, id):
 
 		product = Product.objects.get(id=id)
 		context = {'product':product}
 		return render(request,'products/view_product.html',context)
 
-
+@login_required(login_url='/login/')
 @csrf_exempt
 def moreQuantity(request, ide):
     if request.method == "POST": #os request.GET()
@@ -105,6 +113,7 @@ def moreQuantity(request, ide):
         return render(request,'products/list_my_product.html')
     return render(request,'products/list_my_product.html')
 
+@login_required(login_url='/login/')
 @csrf_exempt
 def discountProduct(request, ide):
     if request.method == "POST": #os request.GET()
@@ -117,6 +126,7 @@ def discountProduct(request, ide):
         return render(request,'products/list_my_product.html')
     return render(request,'products/list_my_product.html')
 
+@login_required(login_url='/login/')
 @csrf_exempt
 def minusQuantity(request, ide):
     if request.method == "POST": #os request.GET()
