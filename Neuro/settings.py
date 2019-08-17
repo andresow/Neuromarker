@@ -107,7 +107,7 @@ DATABASES = {
         #'USER' : 'www',
         #'PASSWORD': 'www',
         'USER' : 'postgres',
-        'PASSWORD': '24603759',
+        'PASSWORD': 'diana9908',
         'HOST' : 'localhost',
         'PORT' : 5432,    
     } 
