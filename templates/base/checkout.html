@@ -121,9 +121,9 @@
 							</ul>
 						</li>
 						<!-- /Account -->
-						<div id="misEnvios" class="modal fade" tabindex="-1" role="dialog"
+						<div id="misEnvios" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
 							aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
+							<div class="modal-dialog modal-lg" role="document">
 								<div class="modal-content">
 									<header align="center">
 										<a class="w3-display-topmiddle"><img src="{% static 'img/logon.png' %}" /></a>
@@ -161,12 +161,66 @@
 														<td>Bill</td>
 														<td>state</td>
 														<td>
-
-															<a class="btn btn-warning" title="" data-toggle="tooltip" type="button" 
-																data-original-title="Ver estado"><i class="fa fa-search" aria-hidden="true">Ver estado</i>
+															<a href="#" data-toggle="tooltip"
+																title="Desvincular de mi red">
+																<button class="primary-btn  btn-circle btn-sm"
+																	data-toggle="modal" data-target="#estadoEnvio"
+																	onclick="getId('{{nodes.id}}', 2)">
+																	<i class="fa fa-trash"></i>
+																</button>
 															</a>
 
+
+
+
 														</td>
+														<div class="modal fade" id="estadoEnvio">
+
+															<form method="POST"
+																action="/nodes/delete_node.html/{{nodes.id}}/"
+																id="post_code">
+																{% csrf_token %}
+
+																<div class="modal-dialog modal-md">
+																	<div class="modal-content">
+
+																		<!-- Modal Header -->
+																		<div class="modal-header">
+																			<h4 class="modal-title">Estado de tu envío
+																			</h4>
+																			<div class="row">
+																				<div class="col-md-6">
+																					<iframe
+																						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31863.156402080185!2d-76.55089974403379!3d3.375943843635788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30a171c4c65349%3A0x2c57d167960c9149!2sUniversidad%20del%20Valle!5e0!3m2!1ses-419!2sco!4v1566593544867!5m2!1ses-419!2sco"
+																						width="300" height="300"
+																						frameborder="0"
+																						style="border:0;"
+																						allowfullscreen=""></iframe>
+
+																				</div>
+																				<div class="col-md-6">
+																					<h3>Enviando</h3>
+																				</div>
+																			</div>
+
+																			<input type="number" style="display:none"
+																				class="form-control" id="mach2"
+																				name="mach2">
+
+																			<button type="button" class="close"
+																				data-dismiss="modal">&times;</button>
+																		</div>
+																		<!-- Modal footer -->
+																		<div class="modal-footer">
+																			<button type="submit"
+																				class="primary-btn">Confirmar</button>
+																			<button type="button"
+																				class="btn btn-secondary"
+																				data-dismiss="modal">Cancelar</button>
+																		</div>
+																	</div>
+															</form>
+														</div>
 													</tr>
 												</tbody>
 											</table>
