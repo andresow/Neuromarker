@@ -13,6 +13,7 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Lista de nodos registrados</h6>
+              <a href="/nodes/create_node.html" class="btn btn-primary">Crear nodo</a>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -64,12 +65,7 @@
                             <td>{{nodes.user.email}}</td>
                             <td>{{nodes.percentage_commission}}</td>
                             <td>{{nodes.is_red}}</td>
-                            <td><a href="#" data-toggle="tooltip" title="Desvincular de mi red">
-                                <button class="primary-btn  btn-circle btn-sm">
-                                  <i class="fa fa-trash"></i>
-                                </button>
-                              </a>
-
+                            <td>
                               <div class="modal fade" id="myModal">
                                 <form method="POST" action="/nodes/delete_node.html/{{nodes.id}}/" id="post_code">
                                   {% csrf_token %}
@@ -79,7 +75,7 @@
 
                                       <!-- Modal Header -->
                                       <div class="modal-header">
-                                        <h4 class="modal-title">Esta seguro de efectuar estos cambios?</h4>
+                                        <h4 class="modal-title">Esta seguro que desea desvincular este nodo de su red?</h4>
                                         <input type="number" style="display:none" class="form-control" id="mach2"
                                           name="mach2">
 

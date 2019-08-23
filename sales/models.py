@@ -1,6 +1,6 @@
 from django.db import models
 from product.models import Product
-from nodes.models import Nodes
+from nodes.models import Nodes, Node_father
 from django.contrib.auth.models import User
 import datetime
 
@@ -40,5 +40,6 @@ class ItemBill(models.Model):
             newItemBill = ItemBill(Product=Product, bill=bill,value=value, quantity=quantity)
             newItemBill.save()
 
-
- 
+class Sending(models.Model):
+    bill = models.ForeignKey(Bill, null=True, blank=True, on_delete=models.CASCADE)
+    state = models.CharField(max_length=15)

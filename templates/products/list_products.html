@@ -19,15 +19,12 @@
 
 				<!---------------------->
 				<!---------------------->
-				<div id="imprimet">
-					<p>Por favor imprima esto</p>
-				</div>
+				
 
 				
 				<div class="wrap">
-					<h1>Bootstrap Modal Example</h1>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#MyModal">
-						Large modal
+						Imprimir factura
 					</button>
 				</div>
 				<div id="printThis">
@@ -106,7 +103,7 @@
 				<!--CODIGO JAVASCRIPT FUNCION IMPRIMIR-->
 				<script>
 					function imprim1(imp1) {
-						var printContents = document.getElementById('printThis').innerHTML;
+						var printContents = document.getElementById(imp1.id).innerHTML;
 						w = window.open();
 						w.document.write(printContents);
 						w.document.close(); // necessary for IE >= 10

@@ -30,7 +30,7 @@ def createNodeShop(request):
             node.user_id = request.user.id
             node.save()
             messages.success(request,"Nodo agregado exitosamente")
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse('list_node'))
     else:
         form = NodesForm()
         form2 = NodesCodeForm()

@@ -113,13 +113,81 @@
 							<ul class="custom-menu">
 								<li><a href="#"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
 								<li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
+								<li><a href="#" data-toggle="modal" data-target="#misEnvios"><i
+											class="fa fa-paper-plane" aria-hidden="true"></i>Mis envíos</a></li>
 								<li><a href="#"><i class="fa fa-unlock-alt"></i> My products</a></li>
 								<li><a href="{% url 'userLogout' %}"><i class="fa fa-user-plus"></i> Cerrar sesión</a>
 								</li>
 							</ul>
 						</li>
 						<!-- /Account -->
+						<div id="misEnvios" class="modal fade" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<header align="center">
+										<a class="w3-display-topmiddle"><img src="{% static 'img/logon.png' %}" /></a>
+										<div class="w3-row-padding">
+											<h2><i class="fa fa-paper-plane" aria-hidden="true"></i>Mis envios</h2>
 
+										</div>
+									</header>
+									<div align="left" class="row-padding">
+										<!--INFO FACTURA-->
+
+										<div>
+											<table id="bill_table1" class="table responsive">
+												<thead class="thead-dark">
+													<tr>
+														<th>Product's Name</th>
+														<th>Quantity</th>
+														<th>Seller</th>
+														<th>Bill</th>
+														<th>State</th>
+														<th class="sorting" tabindex="0" aria-controls="dataTable"
+															rowspan="1" colspan="1"
+															aria-label="Acciones: activate to sort column ascending"
+															style="width: 90px;">Acciones
+														</th>
+
+													</tr>
+
+												</thead>
+												<tbody>
+													<tr>
+														<td>Ejemplo nombre</td>
+														<td>cantidad</td>
+														<td>seller</td>
+														<td>Bill</td>
+														<td>state</td>
+														<td>
+
+															<a class="btn btn-warning" title="" data-toggle="tooltip" type="button" 
+																data-original-title="Ver estado"><i class="fa fa-search" aria-hidden="true">Ver estado</i>
+															</a>
+
+														</td>
+													</tr>
+												</tbody>
+											</table>
+
+										</div>
+
+										<div class="row-padding"> <br>
+											<div class="show-inline-block">
+												<div class="w3-bar">
+													<form>
+														{% csrf_token %}
+														<button class="btn btn-primary"
+															onclick="javascript:imprim1(misEnvios);">Imprimir</button>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						<!-- Cart -->
 						<form method="GET" action="/sales/delet_item_cart/" id="delet_item_cart">
 							<input type="text" name="product_delete" id="product_delete" style="display: none">
@@ -240,7 +308,7 @@
 	</div>
 
 	<!---------------------->
-	
+
 	<!-- /BREADCRUMB -->
 
 	<!-- section -->
