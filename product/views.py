@@ -10,7 +10,7 @@ from sales.models import Bill, ItemBill
 from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 import json
 from django.views.decorators.csrf import csrf_exempt
-from django.cotrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers

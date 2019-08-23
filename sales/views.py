@@ -10,7 +10,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from django.core.serializers import serialize
 import json
-from django.cotrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 

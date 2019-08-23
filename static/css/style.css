@@ -672,9 +672,35 @@ textarea.input {
 	Mobile nav
 \*----------------------------*/
 
+
+
+
 #header .nav-toggle {
   display: none;
 }
+@media screen {
+  #printSection {
+      display: none;
+  }
+}
+@media print {
+  body * {
+      visibility:hidden;
+  }
+  #printSection, #printSection * {
+      visibility:visible;
+  }
+  #printSection {
+      position:absolute;
+      left:0;
+      top:0;
+  }
+}
+
+
+
+
+
 
 @media only screen and (max-width: 991px) {
   #header .nav-toggle {

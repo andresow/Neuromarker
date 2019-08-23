@@ -8,7 +8,7 @@ from nodes.models import Nodes, Node_father
 from django.contrib.auth.models import User
 import json
 from django.views.decorators.csrf import csrf_exempt
-from django.cotrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
