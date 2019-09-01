@@ -11,6 +11,7 @@ from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
@@ -101,17 +102,33 @@ def listProduct(request):
 @login_required(login_url='/login/')
 def listProducts(request):
 
-    nodes = Nodes.objects.get(user_id=request.user.id)
-    products = Product.objects.all().filter(node_id=nodes.id)
-    context = {'products':products}
-    return render(request,'products/list_my_product.html',context)
+    if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id).exists() == True:
+        nodes = Nodes.objects.get(user_id=request.user.id)
+        products = Product.objects.all().filter(node_id=nodes.id)
+        context = {'products':products}
+        return render(request,'products/list_my_product.html',context)
+    else:
+        notification = "No eres tienda, registrate en Neuromarker y empieza a crear tu red de tiendas."
+        nodo = "nodo"
+        context = {'notification':notification,'nodo':nodo }
+        return render(request,'base/notification.html',context)   
+
 
 
 def viewDetaillProduct(request, id):
 
-		product = Product.objects.get(id=id)
-		context = {'product':product}
-		return render(request,'products/view_product.html',context)
+    product = Product.objects.get(id=id)
+    print(product.restriction)
+    if product.restriction  == True:
+        print(request.user.id)
+        if request.user.id is None:
+            return render(request,'auth/login.html') 
+        else:
+            context = {'product':product}
+            return render(request,'products/view_product.html',context)    
+    else:
+        context = {'product':product}
+        return render(request,'products/view_product.html',context)
 
 @login_required(login_url='/login/')
 @csrf_exempt

@@ -40,10 +40,8 @@ def createNodeShop(request):
 @login_required(login_url='/login/')
 def listNodes(request):
     if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id).exists() == True:
-        print(Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id))
         nodes = Nodes.objects.all().filter(id_father=request.user.id)
         user = User.objects.all()
-        print(nodes)
         context = {'nodes':nodes,'user':user }
         return render(request,'nodes/list_node.html',context)
     else:
@@ -69,7 +67,6 @@ def editComission(request, id):
 def deleteNodeMyRed(request, ide):
     if request.method == "POST": #os request.GET()
         var = request.POST['mach2']
-        print(var+ "soy yo soy yo")
         node = Nodes.objects.all().filter(id=var)
         for object in node:
             object.id_father = 0
@@ -84,15 +81,10 @@ def nodeForCode(request):
     if request.method == "POST": #os request.GET()
         var =  request.POST['recipient-name2'] 
         nodeFather = Node_father.objects.all().filter(generateCode=var)
-        print(var)  
-        print(nodeFather)
         for object in nodeFather:
-            print(percentage_commission(object.node_id))
-            print(object.node_id)
             user = User.objects.get(id=request.user.id)
             userName = user.first_name 
             Nodes.objects.create(user=user,is_red=False, name=userName, percentage_commission=percentage_commission(object.node_id),id_father=object.node_id)
-            print("creo")
         return render(request,'nodes/list_node.html')
     return render(request,'nodes/list_node.html')  
 

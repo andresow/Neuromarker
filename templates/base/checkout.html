@@ -115,7 +115,7 @@
 								<li><a href="{% url 'userLogin' %}"><i class="fa fa-unlock-alt"></i> {{user.first_name}}</a></li>
 								<li><a href="#" data-toggle="modal" data-target="#misEnvios"><i
 											class="fa fa-paper-plane" aria-hidden="true"></i>Mis envíos</a></li>
-								<li><a href="#"><i class="fa fa-unlock-alt"></i> Mis productos</a></li>
+								<li><a href="{% url 'list_products' %}"><i class="fa fa-unlock-alt"></i> Mis productos</a></li>
 								<li><a href="{% url 'userLogout' %}"><i class="fa fa-user-plus"></i> Cerrar sesión</a>
 								</li>
 							</ul>
