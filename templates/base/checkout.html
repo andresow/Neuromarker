@@ -112,10 +112,10 @@
 							<a href="{% url 'userLogin' %}" class="text-uppercase">Login</a>
 							<ul class="custom-menu">
 								<li><a href="#"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
-								<li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
+								<li><a href="{% url 'userLogin' %}"><i class="fa fa-unlock-alt"></i> {{user.first_name}}</a></li>
 								<li><a href="#" data-toggle="modal" data-target="#misEnvios"><i
 											class="fa fa-paper-plane" aria-hidden="true"></i>Mis envíos</a></li>
-								<li><a href="#"><i class="fa fa-unlock-alt"></i> My products</a></li>
+								<li><a href="#"><i class="fa fa-unlock-alt"></i> Mis productos</a></li>
 								<li><a href="{% url 'userLogout' %}"><i class="fa fa-user-plus"></i> Cerrar sesión</a>
 								</li>
 							</ul>
@@ -317,8 +317,8 @@
 				<div class="menu-nav">
 					<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
 					<ul class="menu-list">
-						<li><a href="/products/list_products.html">Home</a></li>
-						<li><a href="/products/list_products.html">Home</a></li>
+						<li><a href="/products/list_products.html">Bazar de productos</a></li>
+						<li><a href="{% url 'userLogin' %}">Inicio</a></li>
 						<script>
 							CHOICES2 = [('1', 'Mercado'), ('2', 'Salud y belleza'), ('3', 'Televisores'), ('4', 'Celulares'), ('5', 'Informatica'), ('6', 'Tecnologia'), ('7', 'Electrodomesticos'), ('8', 'Colchones'), ('9', 'Hogar'), ('10', 'Libros'), ('11', 'Moda'), ('12', 'Bebés'), ('13', 'Jugeteria'), ('14', 'Deportes'), ('15', 'Llantas'), ('16', 'Bebés'), ('17', 'Ferreteria'), ('18', 'Vehiculos'), ('19', 'Comidas'), ('10', 'Otros')];						
 						</script>
@@ -326,7 +326,7 @@
 						<li><a href="#">men2 <i class="fa fa-caret-down"></i></a>
 						</li>
 						{% endfor %}
-						<li><a href="/nodes/list_node.html">My store</a>
+						<li><a href="/nodes/list_node.html">Mi tienda</a>
 						</li>
 						<li><a href="#">Sales</a></li>
 					</ul>
@@ -342,8 +342,8 @@
 	<div id="breadcrumb">
 		<div class="container">
 			<ul class="breadcrumb">
-				<li><a href="#">Home</a></li>
-				<li class="active">Checkout</li>
+				<li><a href="#">Bazar de productos</a></li>
+				<li class="active">Ver productos</li>
 			</ul>
 		</div>
 	</div>
@@ -394,14 +394,103 @@
 					<div class="footer">
 						<h3 class="footer-header">Ingresa el codigo de tu tienda padre</h3>
 						<p>Neuromarker la tienda de tiendas hecha a la medidad para ti</p>
-						<input class="input" id="code" name="code" placeholder="Ingresa el codigo de tu tiendra padre">
-						<button type="submit" class="primary-btn" onclick="getId()">Registrarse</button>
+						<button type="submit" class="primary-btn" data-toggle="modal"
+                        data-target="#exampleModalCode">Ingresar codigo</button>
+						<div class="modal fade" id="exampleModalCode" tabindex="-1" role="dialog"
+						aria-labelledby="exampleModalCodeLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCode">Pertenecer a una tienda</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div>
+                <div class="modal-body">
+                  <form method="POST" action="/nodes/insert_code_father.html/" id="post_code">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="recipients-name" class="col-form-label">Ingrese el codigo padre:</label>
+                      <input type="text" class="form-control" id="recipient-name2" name="recipient-name2">
+                      <button type="button" class="primary-btn" data-toggle="modal"
+                        data-target="#myModalCodes">Pertenecer a una tienda</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <div class="container">
+                        <!-- The Modal -->
+                        <div class="modal fade" id="myModalCodes">
+                          <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title">Esta seguro de efectuar estos cambios?</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="submit" class="primary-btn">Confirmar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
 					</div>
 				</div>
 				<!-- /footer subscribe -->
 			</div>
 			<!-- /row -->
 			<hr>
+
+			<div class="modal fade" id="exampleModalMinus" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalMinusLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+	<div class="modal-header">
+	  <h5 class="modal-title" id="exampleModalMinusLabel">Pertenecer a una tienda</h5>
+	  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+	  <form method="POST" action="/nodes/insert_code_father.html/" id="post_code">
+		{% csrf_token %}
+		<div class="form-group">
+		  <label for="recipients-name" class="col-form-label">Ingrese el codigo padre:</label>
+		  <input type="text" class="form-control" id="recipient-name2" name="recipient-name2">
+		  <button type="button" class="primary-btn" data-toggle="modal"
+			data-target="#myModalMinus">Pertenecer a una tienda</button>
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		  <div class="container">
+			<!-- The Modal -->
+			<div class="modal fade" id="myModalMinus">
+			  <div class="modal-dialog modal-sm">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h4 class="modal-title">Esta seguro de efectuar estos cambios?</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				  </div>
+				  <div class="modal-footer">
+					<button type="submit" class="primary-btn">Confirmar</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+		  </div>
+		</div>
+	  </form>
+	</div>
+
+  </div>
+</div>
+			</div>
 			<!-- row -->
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center">
@@ -431,26 +520,7 @@
 	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
 	<script>
-		function getIdButtonDelete(productIn) {
-			document.getElementById("product_delete").value = productIn;
-			console.log(document.getElementById("product_delete").value)
-		}
-		$("#delet_item_cart").submit(function (e) {
-			e.preventDefault();
-			console.log("VAELDELETE")
-			console.log(document.getElementById("product_delete").value)
-			$.ajax({
-				url: $(this).attr('action'),
-				type: $(this).attr('method'),
-				data: {
-					product_delete: document.getElementById("product_delete").value,
-				},
-				success: function (json) {
-					console.log("ntro");
-					console.log(json);
-				}
-			})
-		})
+
 	</script>
 	{% endblock %}
 </body>

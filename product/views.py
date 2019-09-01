@@ -43,18 +43,30 @@ def createProduct(request):
                     messages.success(request,"Producto creado exitosamente")
                 return HttpResponseRedirect(reverse('product_image', args=[Product.objects.last().id]))
             else:
-                print("Usted no es una tienda")
+                notification = "No eres tienda, registrate en Neuromarker y empieza a crear tu red de tiendas."
+                nodo = "nodo"
+                context = {'notification':notification,'nodo':nodo }
+                return render(request,'base/notification.html',context)
         else:
-               print("Usted no es una tienda x2")     
+                notification = "No eres vendedor, registrate como vendedor en Neuromarker y asociate a una tienda."
+                nodo = "vendedor"
+                context = {'notification':notification,'nodo':nodo }
+                return render(request,'base/notification.html',context)     
     else:
         if Nodes.objects.filter(user_id=request.user.id).exists() == True:         
             if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id).exists() == True:
                 form = newProduct()
                 context = {'form':form} 
             else:
-                print("Usted no es una tienda")
+                notification = "No eres tienda, registrate en Neuromarker y empieza a crear tu red de tiendas."
+                nodo = "nodo"
+                context = {'notification':notification,'nodo':nodo }
+                return render(request,'base/notification.html',context)
         else:
-               print("Usted no es una tienda x2")  
+                notification = "No eres vendedor, registrate como vendedor en Neuromarker y asociate a una tienda."
+                nodo = "vendedor"
+                context = {'notification':notification,'nodo':nodo }
+                return render(request,'base/notification.html',context)   
     return render(request,'products/newProduct.html', context)
 
 

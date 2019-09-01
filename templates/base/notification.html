@@ -1,0 +1,51 @@
+{% extends 'base/checkout.html' %}
+{% load i18n %}
+{% block main %}
+{% load bootstrap4 %}
+
+<body>   
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5" id="centrado">
+            <div class="card-body p-0">
+                <div class="row">                
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="p-5">
+                            <div class="text-center" >
+                                <h5 class="h4 text-gray-900 mb-4"> </h5>
+                                <font size="33" color="orange">{{notification}}</font>
+                            </div>   
+                            <div class="container-fluid">
+                                    <div class="card-body p-0">
+                                        <div class="row">                
+                                            <div class="col-1"></div>
+                                            <div class="col-10">
+                                                <div class="p-5">
+                                                        <div class="card shadow mb-4">
+                                                                <div class="card-header py-3">
+                                                                  <h6 class="m-0 font-weight-bold text-primary"></h6>
+                                                                </div>
+                                                                <div class="text-center">
+                                                                        {% if nodo == "nodo" %}
+                                                                        <img src="../../../static/img/NEUROIMG.png" class="img-fluid rounded " alt="Imagen del producto">
+                                                                        {% endif %}
+                                                                        {% if nodo == "vendedor" %}
+                                                                        <img src="../../../static/img/logon.png" class="img-fluid rounded " alt="Imagen del producto">
+                                                                        {% endif %}
+                                                                </div>
+                                                              </div>   
+                                                                              
+                                                <div class="col-1"></div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>     
+                        </div>                      
+                        <div class="col-1"></div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}

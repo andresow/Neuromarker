@@ -39,12 +39,19 @@ def createNodeShop(request):
 
 @login_required(login_url='/login/')
 def listNodes(request):
+    if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id).exists() == True:
+        print(Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id))
+        nodes = Nodes.objects.all().filter(id_father=request.user.id)
+        user = User.objects.all()
+        print(nodes)
+        context = {'nodes':nodes,'user':user }
+        return render(request,'nodes/list_node.html',context)
+    else:
+        notification = "No eres tienda, registrate en Neuromarker y empieza a crear tu red de tiendas."
+        nodo = "nodo"
+        context = {'notification':notification,'nodo':nodo }
+        return render(request,'base/notification.html',context)
 
-    nodes = Nodes.objects.all().filter(id_father=request.user.id)
-    user = User.objects.all()
-    print(nodes)
-    context = {'nodes':nodes,'user':user }
-    return render(request,'nodes/list_node.html',context)
 
 @login_required(login_url='/login/')
 @csrf_exempt
