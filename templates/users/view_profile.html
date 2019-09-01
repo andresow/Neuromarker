@@ -1,5 +1,4 @@
 {% extends 'base/checkout.html' %}
-{% load i18n %}
 {% block main %}
 {% load bootstrap4 %}
 
@@ -7,24 +6,27 @@
     <div class="container">
         <div class="card o-hidden border-0 shadow-lg my-5" id="centrado">
             <div class="card-body p-0">
-                <div class="row">                
-                    <div class="col-1"></div>
-                    <div class="col-10">
-                        <div class="p-5">
+                <div class="row">
+                        <div class="col-md-6">
                             <div class="text-center" >
-                                <h1 class="h4 text-gray-900 mb-4">Haz parte de Neuromarker , crea tu propia tienda online!!</h1>
+                                <h3 class="">Crear usuarios</h3>
                             </div>
+                            <fieldset disabled>
+
                             <form  method="POST" >
                                 <div class="form-group">
                                     {% csrf_token %}
                                     {% bootstrap_form form %}
                                     {% bootstrap_form form2 %}
-
                                 </div>
-                                <button type="submit" class="btn btn-success  btn-user btn-block">Crear tienda</button>
-                            </form>           
+                                <button type="submit" class="btn btn-success  btn-user btn-block">Guardar usuarios</button>
+                            </form>   
+                        </fieldset>
+        
                         </div>                      
-                        <div class="col-1"></div> 
+                        <div class="col-md-6">
+                            <img src="../../static/img/NEUROIMG.png" style="width:100%; ">
+                        </div> 
                     </div>
                 </div>
             </div>

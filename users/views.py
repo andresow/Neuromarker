@@ -35,6 +35,7 @@ def createUser(request):
         context = {'form':form,'form2':form2} 
     return render(request,'users/create_user.html', context) 
 
+
 def userLogin(request):
 	
         context = {}
@@ -63,3 +64,4 @@ def userLogout(request):
 
 		logout(request)
 		return HttpResponseRedirect(reverse('userLogin'))
+

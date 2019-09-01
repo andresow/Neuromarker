@@ -1,13 +1,14 @@
 from django.db import models
 from nodes.models import Nodes
+from .validators import minValue
 
 class Product(models.Model):
 
     node = models.ForeignKey(Nodes, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=40)
     description = models.TextField()
-    value = models. IntegerField()
-    quantity = models.IntegerField()
+    value = models. IntegerField( validators=[minValue])
+    quantity = models.IntegerField(validators=[minValue])
     restriction = models.BooleanField()
     state = models.CharField(max_length=20)
     category = models.CharField(max_length=200)

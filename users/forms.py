@@ -30,7 +30,7 @@ class UserForm(UserCreationForm):
 				'email':forms.TextInput(attrs={'class':'form-control form-control-user'}),
 				'password1':forms.CharField(widget=forms.PasswordInput()),
 				'password2':forms.CharField(widget=forms.PasswordInput()),
-		}
+		}	
 
 class ProfileForm(forms.ModelForm):
 

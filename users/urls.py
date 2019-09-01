@@ -6,6 +6,6 @@ urlpatterns = [
 
     url(r'products/index.html', createUser,  name='index'),
     url(r'users/create_users.html', createUser, name='create_users'),
-    
+
 ]
 

@@ -36,6 +36,7 @@ class newProduct(forms.ModelForm):
 				'category':forms.Select(choices=CHOICES2),
 		}
 
+
        
 class ImageForm(forms.Form):
     

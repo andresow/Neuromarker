@@ -42,7 +42,9 @@ def createProduct(request):
                     product.node_id = value
                     product.save()         
                     messages.success(request,"Producto creado exitosamente")
-                return HttpResponseRedirect(reverse('product_image', args=[Product.objects.last().id]))
+                    return HttpResponseRedirect(reverse('product_image', args=[Product.objects.last().id]))
+                else:
+                    return render(request,'base/notification.html')   
             else:
                 notification = "No eres tienda, registrate en Neuromarker y empieza a crear tu red de tiendas."
                 nodo = "nodo"

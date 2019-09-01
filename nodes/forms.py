@@ -18,7 +18,7 @@ class NodesForm(forms.ModelForm):
 				'name':forms.TextInput(attrs={'class':'form-control form-control-user'}),
 				'percentage_commission':forms.NumberInput(),
 	    }
-
+  
 
 class NodesCodeForm(forms.Form):
 
