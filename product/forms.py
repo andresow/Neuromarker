@@ -6,7 +6,7 @@ class newProduct(forms.ModelForm):
 	class Meta:
 		model = Product
 		CHOICES = [('1', 'Nuevo'), ('2', 'Usado')]
-		CHOICES2 = [('1', 'Mercado'), ('2', 'Salud y belleza'),('3', 'Televisores'),('4', 'Celulares'),('5', 'Informatica'),('6', 'Tecnologia'),('7', 'Electrodomesticos'),('8', 'Colchones'), ('9', 'Hogar'),('10', 'Libros'),('11', 'Moda'),('12', 'Bebés'),('13', 'Jugeteria'),('14', 'Deportes'),('15', 'Llantas'),('16', 'Bebés'),('17', 'Ferreteria'),('18', 'Vehiculos'), ('19', 'Comidas'),('10', 'Otros')
+		CHOICES2 = [('Mercado', 'Mercado'), ('Salud y belleza', 'Salud y belleza'),('Televisores', 'Televisores'),('Celulares', 'Celulares'),('Informatica', 'Informatica'),('Tecnologia', 'Tecnologia'),('Electrodomesticos', 'Electrodomesticos'),('Colchones', 'Colchones'), ('Hogar', 'Hogar'),('Libros', 'Libros'),('Moda', 'Moda'),('Bebés', 'Bebés'),('Jugeteria', 'Jugeteria'),('Deportes', 'Deportes'),('Llantas', 'Llantas'),('Bebés', 'Bebés'),('Ferreteria', 'Ferreteria'),('Vehiculos', 'Vehiculos'), ('Comidas', 'Comidas'),('Otros', 'Otros')
 		]
 		fields = [
 				'name',

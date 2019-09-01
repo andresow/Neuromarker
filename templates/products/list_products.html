@@ -129,12 +129,40 @@
 						<input type="text" name="categoryIn" id="categoryIn" style="display: none">
 						<h3 class="aside-title">Filtrar por categorias</h3>
 						<ul class="list-links">
-							<li><a id='Ropa' value='Ropa' onclick='getProductsByCategory(this.id)'>Ropa</a>
-								<button type="submit" id="search-category"
-									onclick="getProductsByCategory('Ropa')">PRUEBA</button></li>
-							<li><a type='submit' href="#">Adidas</a></li>
-							<li><a type='submit' href="#">Polo</a></li>
-							<li><a type='submit' href="#">Lacost</a></li>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Bebés')">Bebés</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Comidas')">Comidas</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Colchones')">Colchones</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Celulares')">Celulares</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Deportes')">Deportes</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Electrodomesticos')">Electrodomesticos</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Ferreteria')">Ferreteria</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Hogar')">Hogar</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Informatica')">Informatica</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Llantas')">Llantas</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Libros')">Libros</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Moda')">Moda</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Vehiculos')">Vehiculos</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Salud y belleza')">Salud y belleza</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Tecnologia')">Tecnologia</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Televisores')">Televisores</button></li>
+							<h1></h1>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Otros')">Otros</button></li>
+
 						</ul>
 					</form>
 				</div>
@@ -142,32 +170,26 @@
 			</div>
 			<!-- /ASIDE -->
 
-			<!-- MAIN -->
 			<div id="main" class="col-md-9">
-				<!-- store top filter -->
+					<!-- store top filter -->
 
-				<!-- STORE -->
-				<form method="GET" action="sales/add_product_cart/" id="add_to_cart">
-					<input type="text" name="productIn" id="productIn" style="display: none">
+					<!-- STORE -->
 					<div id="store">
-						{% if products %}
-						{% for product in products %}
-						<!-- Product Single -->
-						<ul class="col-md-4 col-sm-6 col-xs-w">
-							<li>
-								<div class="product product-single">
+                            {% if products %}
+                            {% for product in products %}
+							<!-- Product Single -->
+							<ul class="col-md-4 col-sm-6 col-xs-w">
+								<li><div class="product product-single">
 									<div class="product-thumb">
-										<a href="{% url 'product_detaills' id=product.id %}">
-											<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista
-												previa</button></a>
-										{% if product %}
-										<img src="../../../static/{{product.picture}}" class="img-fluid rounded "
-											alt="">
-										{% endif %}
+                                            <a href="{% url 'product_detaills' id=product.id %}">
+                                            <button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista previa</button></a>
+                                        {% if product %}
+                                                    <img src="../../../static/{{product.picture}}" class="img-fluid rounded " alt="">
+                                        {% endif %}
 									</div>
 									<div class="product-body">
-										<h3 class="product-price">$ {{product.name}} </h3>
-										<h3 class="product-price">Categoria: {{product.category}} </h3>
+                                        <h3 class="product-price">$ {{product.name}} </h3>
+                                        <h3 class="product-price">Categoria: {{product.category}} </h3>
 										<div class="product-rating">
 											<i class="fa fa-star"></i>
 											<i class="fa fa-star"></i>
@@ -179,22 +201,17 @@
 										<div class="product-btns">
 											<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 											<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-											<button type='submit' class="primary-btn add-to-cart"><i
-													class="fa fa-shopping-cart" id="{{product.id}}"
-													onclick="getIdProductSelect(this.id)"></i> Agregar al carrito
-												{{product.id}}</button>
+											<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>
 										</div>
 									</div>
-								</div>
-							</li>
-						</ul>
-						{% endfor %}
-						{% else %}
-						<h1 class="black-color">No hay productos disponibles</h1>
-						{% endif %}
+								</div></li>
+							</ul>
+                        {% endfor %}
+                        {% else %}
+                        <h1 class="black-color">No hay productos disponibles</h1>
+                        {% endif %}
 					</div>
-				</form>
-				<!-- /STORE -->
+					<!-- /STORE -->
 			</div>
 			<!-- /MAIN -->
 		</div>

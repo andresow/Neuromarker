@@ -71,7 +71,7 @@ def uploadImage(request,id):
                 product.picture="./images/"+ruta
                 product.save()         
                 messages.success(request,'Imagen actualizada exitosamente')
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('products_list'))
     else:
             product = Product.objects.get(id=id)
             form = ImageForm()
@@ -80,10 +80,10 @@ def uploadImage(request,id):
 
 
 def listProduct(request):
-    bill = Bill.getActiveSale(request, request.user)
-    items_bill = ItemBill.objects.filter(bill=bill)
+    #bill = Bill.getActiveSale(request, request.user)
+    #items_bill = ItemBill.objects.filter(bill=bill)
     product = Product.objects.all()
-    context = {'products':product,'bill':bill, 'items_bill':items_bill}	
+    context = {'products':product}	
     return render(request,'products/list_products.html',context)
 
 @login_required(login_url='/login/')
