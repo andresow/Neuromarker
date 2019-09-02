@@ -117,7 +117,7 @@
 						<input type="text" name="categoryIn" id="categoryIn" style="display: none">
 						<h3 class="aside-title">Filtrar por categorias</h3>
 						<ul class="list-links">
-							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Bebés')">Bebés</button></li>
+							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Ropa')">Bebés</button></li>
 							<h1></h1>
 							<li><button type="submit"  class="primary-btn  btn-circle btn-sm" id="search-category" onclick="getProductsByCategory('Comidas')">Comidas</button></li>
 							<h1></h1>
@@ -162,6 +162,11 @@
 					<!-- store top filter -->
 
 					<!-- STORE -->
+					<form method="GET" action="sales/add_product_cart/" id="add_to_cart">
+						<input type="text" 
+									name="productIn" 
+									id="productIn" 
+									style="display: none">
 					<div id="store">
                             {% if products %}
                             {% for product in products %}
@@ -189,7 +194,7 @@
 										<div class="product-btns">
 											<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 											<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-											<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>
+											<button type='submit' class="primary-btn add-to-cart"><i class="fa fa-shopping-cart" id="{{product.id}}" onclick="getIdProductSelect('{{product.id}}')"></i> Agregar al carrito {{product.id}}</button>
 										</div>
 									</div>
 								</div></li>
@@ -199,6 +204,7 @@
                         <h1 class="black-color">No hay productos disponibles</h1>
                         {% endif %}
 					</div>
+				</form>
 					<!-- /STORE -->
 			</div>
 			<!-- /MAIN -->
@@ -216,35 +222,17 @@
 	}
 
 	function getIdProductSelect(productIn) {
-		document.getElementById("productIn").value = productIn;
+		document.getElementById("productIn").value = Number(productIn);
+		console.log("aquifueasdasdasdasad : "+productIn)
+		console.log("aquifue : "+$("#productIn").val())
 		console.log(document.getElementById("productIn").value)
 	}
 
-	$("#Ropa").click(function (e) {
-		console.log("Entro")
-		e.preventDefault();
-		$.ajax({
-			url: $(this).attr('action'),
-			type: $(this).attr('method'),
-			data: {
-				categoryIn: '1'
-			},
-			success: function (json) {
-				$('#store').empty();
-				console.log("Entroalsuccess")
-				console.log(json);
-				for (var i = 0; i < json.length; i++) {
-
-				}
-				/*$('<ul> </ul>',{
-
-				})*/
-			}
-		})
-	})
-
 	$("#add_to_cart").submit(function (e) {
 		e.preventDefault();
+		console.log("hola");
+		console.log("aquifue : "+$("#productIn").val());
+		console.log($("#productIn").val());
 		$.ajax({
 			url: $(this).attr('action'),
 			type: $(this).attr('method'),
@@ -254,9 +242,17 @@
 			success: function (json) {
 				console.log("ntro");
 				console.log(json);
+				document.getElementById("qty_cart").innerHTML = json['items'];
+				document.getElementById("total_cart").innerHTML = json['total_sale'];
 				console.log("paso :" + json['total_sale']);
-				document.getElementById("total_" + json['id_bill']).innerHTML = json['total_sale'];
-				$('.shopping-cart-list').append('<div class="product product-widget" id="item_' + json["item_cart"]["id_product"] + '">	<div class="product-thumb">			<img src="../../../static/' + json["item_cart"]["picture"] + '" alt="">			</div>			<div class="product-body">				<h3 class="product-price">$' + json["item_cart"]["value"] + ' <span class="qty">x' + json["item_cart"]["quantity"] + '</span></h3>				<h2 class="product-name"><a href="#">' + json["item_cart"]["name"] + '</a></h2>			</div>			<button class="cancel-btn"><i class="fa fa-trash"></i></button>		</div>');
+				if(json['exist']){
+					console.log(json["item_cart"]["quantity"])
+					document.getElementById("qty_item_"+json['item_cart']['id']).innerHTML = "x"+json["item_cart"]["quantity"];
+				} else {
+					$('.shopping-cart-list').append('<div class="product product-widget" id="item_' + json["item_cart"]["id_product"] + '">	<div class="product-thumb">			<img src="../../../static/' + json["item_cart"]["picture"] + '" alt="">			</div>			<div class="product-body">				<h3 class="product-price">$' + json["item_cart"]["value"] + ' <span class="qty" id="qty_item_'+json['item_cart']['id']+'">x' + json["item_cart"]["quantity"] + '</span></h3>				<h2 class="product-name"><a href="#">' + json["item_cart"]["name"] + '</a></h2>			</div>			<button type="submit" class="cancel-btn" id="'+json['item_cart']['id_product']+'" onclick="getIdButtonDelete(this.id)"><i class="fa fa-trash"></i></button>		</div>');
+				}
+				
+				
 			}
 		})
 	})

@@ -6,7 +6,7 @@ from product.forms import newProduct, ImageForm
 from django.contrib import messages
 from product.models import Product, Image
 from nodes.models import Nodes, Node_father
-from sales.models import Bill, ItemBill
+from sales.models import Bill, ItemBill, Cart, ItemCart
 from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -95,10 +95,10 @@ def uploadImage(request,id):
 
 
 def listProduct(request):
-    #bill = Bill.getActiveSale(request, request.user)
-    #items_bill = ItemBill.objects.filter(bill=bill)
+    cart = Cart.getActiveCart(request,request.user)
+    items_cart = ItemCart.objects.filter(cart=cart)
     product = Product.objects.all()
-    context = {'products':product}	
+    context = {'products':product,'cart':cart, 'items_cart':items_cart} 
     return render(request,'products/list_products.html',context)
 
 @login_required(login_url='/login/')

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from nodes.models import Nodes, Comission
 from product.models import Product
-from sales.models import Bill, ItemBill
+from sales.models import Bill, ItemBill, Cart, ItemCart
 from django.contrib.auth.models import User
 
 from django.http import HttpResponse
@@ -62,30 +62,49 @@ def moreComittion(idSeller):
  #   if request.is_ajax:
   #      if request.method == 'GET':
 
+def getShoppingCart(request):
+    cart = Cart.getActiveCart(request,request.user)
+    items_cart = ItemCart.objects.filter(cart=cart)
+    return {'cart':cart, 'items_cart':items_cart}
 
 def addProductShoppingCart(request):
     if request.is_ajax:
         if request.method == 'GET':
-            active_sale = Bill.getActiveSale(request, request.user) #MIRAR LO DEL REQUESTUSER
+            active_cart = Cart.getActiveCart(request, request.user) #MIRAR LO DEL REQUESTUSER
             productIn = request.GET.get('productIn')
-            product = Product.objects.get(id=productIn)
-            item_cart = ItemBill.objects.create(Product=product,bill=active_sale,value=product.value, quantity=1)
-            item_cart = item_bill_serializer(item_cart, product.name, str(product.picture))
-            active_sale.total += product.value
-            active_sale.save()
-            context = {'id_bill':active_sale.id,'total_sale':active_sale.total, 'item_cart':item_cart}
+            product = Product.objects.get(id=productIn)            
+            try:
+                item_cart = ItemCart.objects.get(cart=active_cart, Product=product)
+                exist= True
+            except ItemCart.DoesNotExist:
+                item_cart = None
+                exist = False
+            if item_cart==None:
+                item_cart = ItemCart.objects.create(Product=product,cart=active_cart,value=product.value, quantity=1)
+            else:
+                item_cart.quantity = 1 +item_cart.quantity
+                item_cart.save()
+            item_cart = item_cart_serializer(item_cart, product.name, str(product.picture))
+            active_cart.total += product.value
+            active_cart.items += 1
+            active_cart.save()
+            context = {'id_cart':active_cart.id,'total_sale':active_cart.total, 'item_cart':item_cart, 'items':active_cart.items, 'exist':exist}
             print(context)
             return HttpResponse(json.dumps(context,cls=DjangoJSONEncoder), content_type = "application/json")
 
-def item_bill_serializer(item_bill, name_product, picture_product):
-    return {'id': item_bill.id, 'id_product':item_bill.Product.id, 'name': name_product, 'value': item_bill.value, 'quantity': item_bill.quantity, 'picture':picture_product}
+def item_cart_serializer(item_cart, name_product, picture_product):
+    return {'id': item_cart.id, 'id_product':item_cart.Product.id, 'name': name_product, 'value': item_cart.value, 'quantity': item_cart.quantity, 'picture':picture_product}
 
 def deleteProductShoppingCart(request):
     if request.is_ajax:
         if request.method == 'GET':
-            active_sale = Bill.getActiveSale(request, request.user)
+            active_cart = Cart.getActiveCart(request, request.user)
             product_delete = request.GET.get('product_delete')
             product = Product.objects.get(id=product_delete)
-            item_out = ItemBill.objects.filter(Product=product, bill=active_sale)
+            item_out = ItemCart.objects.get(Product=product, cart=active_cart)
+            minus_total = item_out.quantity * item_out.value
+            active_cart.total = active_cart.total - minus_total
+            active_cart.items -= item_out.quantity
+            active_cart.save()
             item_out.delete()
-            return HttpResponse(json.dumps({"success":"true"},cls=DjangoJSONEncoder), content_type = "application/json")
+            return HttpResponse(json.dumps({"total":active_cart.total, 'items':active_cart.items, 'id_product':product_delete},cls=DjangoJSONEncoder), content_type = "application/json")

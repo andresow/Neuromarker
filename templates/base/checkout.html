@@ -250,28 +250,28 @@
 								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 									<div class="header-btns-icon">
 										<i class="fa fa-shopping-cart"></i>
-										<span class="qty">3</span>
+										<span class="qty" id="qty_cart">{{cart.items}}</span>
 									</div>
 									<strong class="text-uppercase">Mi carrito:</strong>
 									<br>
-									<span id="total_{{bill.id}}">{{bill.total}}$</span>
+									<span id="total_cart">{{cart.total}}$</span>
 								</a>
 								<div class="custom-menu">
 									<div id="shopping-cart">
 										<div class="shopping-cart-list">
-											{% if items_bill %}
-											{% for item_bill in items_bill %}
-											<div class="product product-widget" id="item_{{item_bill.Product.id}}">
+											{% if items_cart %}
+											{% for item_cart in items_cart %}
+											<div class="product product-widget" id="item_{{item_cart.Product.id}}">
 												<div class="product-thumb">
-													<img src="../../../static/{{item_bill.Product.picture}}" alt="">
+													<img src="../../../static/{{item_cart.Product.picture}}" alt="">
 												</div>
 												<div class="product-body">
-													<h3 class="product-price">${{item_bill.value}} <span
-															class="qty">x{{item_bill.quantity}}</span></h3>
-													<h2 class="product-name"><a href="#">{{item_bill.Product.name}}</a>
+													<h3 class="product-price">${{item_cart.value}} <span
+															class="qty" id="qty_item_{{item_cart.id}}">x{{item_cart.quantity}}</span></h3>
+													<h2 class="product-name"><a href="#">{{item_cart.Product.name}}</a>
 													</h2>
 												</div>
-												<button type="submit" class="cancel-btn" id="{{item_bill.Product.id}}"
+												<button type="submit" class="cancel-btn" id="{{item_cart.Product.id}}"
 													onclick="getIdButtonDelete(this.id)"><i
 														class="fa fa-trash"></i></button>
 											</div>
@@ -521,7 +521,27 @@ aria-labelledby="exampleModalMinusLabel" aria-hidden="true">
 	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
 	<script>
-
+		function getIdButtonDelete(productIn){
+			document.getElementById("product_delete").value = productIn;
+			console.log(document.getElementById("product_delete").value)
+		}
+		$("#delet_item_cart").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:$(this).attr('action'),
+				type:$(this).attr('method'),
+				data:{
+					product_delete : document.getElementById("product_delete").value,
+				},
+				success: function(json){
+					console.log("ntro");
+					console.log(json);
+					document.getElementById("total_cart").innerHTML = json.total;
+					document.getElementById("qty_cart").innerHTML = json.items;
+					$("#item_"+json.id_product).remove();
+				}
+			})
+		})
 	</script>
 	{% endblock %}
 </body>
