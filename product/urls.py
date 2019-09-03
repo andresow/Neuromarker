@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'products/more_quantity.html/(?P<ide>\d+)/', moreQuantity, name='more_quantity'),
     url(r'products/minus_quantity.html/(?P<ide>\d+)/', minusQuantity, name='minus_quantity'),
     url(r'products/discount_quantity.html/(?P<ide>\d+)/', discountProduct, name='discount_product'),
+    url(r'products/carrito/', carrito, name='carrito'),
     url(r'products/get_products_by_category/', listProductsByCategory, name='get_products_by_category'),
 
 ]

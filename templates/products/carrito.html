@@ -1,0 +1,217 @@
+{% extends 'base/checkout.html' %}
+{%load staticfiles %}
+{% block main %}
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<!-- ASIDE -->
+			<div id="aside" class="col-md-3">
+
+				
+				<div class="wrap">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#MyModal">
+						Imprimir factura
+					</button>
+				</div>
+				<div id="printThis">
+					<div id="MyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<header align="center">
+									<a class="w3-display-topmiddle"><img src="{% static 'img/logon.png' %}" /></a>
+									<div class="w3-row-padding">
+										<div align="center" class=""> <br>
+											<h5>NIT: 0000000-0</h5>
+											<h5>Régimen común</h5>
+										</div>
+									</div>
+								</header>
+								<div align="left" class="row-padding">
+									<!--INFO FACTURA-->
+									<div class="row-padding">
+										<p><strong>Factura #{{bill.id}}</strong></p>
+										<p> Fecha y Hora</p>
+										<p>{{hora}}</p>
+									</div>
+									<!--INFO VENDEDOR Y METODO DE PAGO-->
+									<p><strong>{{userFullName}}</strong></p>
+									<p>Cond. Pago: CONTADO</p>
+									<div>
+										<table id="bill_table1" class="table responsive">
+											<thead class="thead-dark">
+												<tr>
+													<th>Product's Name</th>
+													<th>Quantity</th>
+													<th>Subtotal</th>
+													<th>Total</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Ejemplo nombre</td>
+												</tr>
+											</tbody>
+										</table>
+
+									</div>
+									<div align="center">
+										<div class="row-padding">
+											<p class="w3-center">INFORMACIÓN TRIBUTARIA</p>
+										</div>
+										<div class="row-padding">
+											<div>
+												<p>RESOLUCIÓN DIAN NO. 500 046612 DE 1200 HASTA 5000</p>
+											</div>
+										</div>
+									</div>
+									<div class="row-padding"> <br>
+										<div class="show-inline-block">
+											<div class="w3-bar">
+												<form method="POST" action="/sales/createSale/{{event.id}}/"
+													id="post_venta">
+													{% csrf_token %}
+													<button type="submit button" class="btn btn-success"
+														title="Finalizar venta">
+														<i class="fa fa-check"></i>Finalizar Venta
+													</button>
+													<button class="btn btn-primary" onclick="javascript:imprim1(printThis);">Imprimir</button>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--CODIGO JAVASCRIPT FUNCION IMPRIMIR-->
+				<script>
+					function imprim1(imp1) {
+						var printContents = document.getElementById(imp1.id).innerHTML;
+						w = window.open();
+						w.document.write(printContents);
+						w.document.close(); // necessary for IE >= 10
+						w.focus(); // necessary for IE >= 10
+						w.print();
+						w.close();
+						return true;
+					}
+					
+				</script>
+				<!--FIN HREF MODAL-->
+				<!---------------------->
+
+				<!--HREF DE MODAL-->
+
+
+
+
+				<!--FIN HREF MODAL-->
+			</div>
+			<!-- /ASIDE -->
+
+			<div id="main" class="col-md-9">
+					<!-- store top filter -->
+                    <div>
+                        <table id="bill_table1" class="table responsive table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Product's Name</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ejemplo nombre</td>
+                                    <td>Ejemplo cantidad</td>
+                                    <td>Ejemplo subtotal</td>
+                                    <td><a href="#" data-toggle="tooltip" title="Desvincular de mi red">
+                                        <button class="primary-btn  btn-circle btn-sm" data-toggle="modal" data-target="#myModal"
+                                          onclick="getId('{{nodes.id}}', 2)">
+                                          <i class="fa fa-trash"></i>
+                                        </button>
+                                      </a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+			</div>
+			<!-- /MAIN -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript">
+	function getProductsByCategory(categoryIn) {
+		document.getElementById("categoryIn").value = categoryIn;
+		console.log("salio")
+		console.log(document.getElementById("categoryIn").value)
+	}
+
+	function getIdProductSelect(productIn) {
+		document.getElementById("productIn").value = Number(productIn);
+		console.log("aquifueasdasdasdasad : "+productIn)
+		console.log("aquifue : "+$("#productIn").val())
+		console.log(document.getElementById("productIn").value)
+	}
+
+	$("#add_to_cart").submit(function (e) {
+		e.preventDefault();
+		console.log("hola");
+		console.log("aquifue : "+$("#productIn").val());
+		console.log($("#productIn").val());
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			data: {
+				productIn: $("#productIn").val(),
+			},
+			success: function (json) {
+				console.log("ntro");
+				console.log(json);
+				document.getElementById("qty_cart").innerHTML = json['items'];
+				document.getElementById("total_cart").innerHTML = json['total_sale'];
+				console.log("paso :" + json['total_sale']);
+				if(json['exist']){
+					console.log(json["item_cart"]["quantity"])
+					document.getElementById("qty_item_"+json['item_cart']['id']).innerHTML = "x"+json["item_cart"]["quantity"];
+				} else {
+					$('.shopping-cart-list').append('<div class="product product-widget" id="item_' + json["item_cart"]["id_product"] + '">	<div class="product-thumb">			<img src="../../../static/' + json["item_cart"]["picture"] + '" alt="">			</div>			<div class="product-body">				<h3 class="product-price">$' + json["item_cart"]["value"] + ' <span class="qty" id="qty_item_'+json['item_cart']['id']+'">x' + json["item_cart"]["quantity"] + '</span></h3>				<h2 class="product-name"><a href="#">' + json["item_cart"]["name"] + '</a></h2>			</div>			<button type="submit" class="cancel-btn" id="'+json['item_cart']['id_product']+'" onclick="getIdButtonDelete(this.id)"><i class="fa fa-trash"></i></button>		</div>');
+				}
+				
+				
+			}
+		})
+	})
+
+	$("#search-category").submit(function (e) {
+		console.log("Entro")
+		$('#store').empty();
+		e.preventDefault();
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			data: {
+				categoryIn: $("#categoryIn").val()
+			},
+			success: function (json) {
+				var queryhtml = '';
+				for (var i = 0; i < json.length; i++) {
+					queryhtml += '<ul class="col-md-4 col-sm-6 col-xs-w"><li><div class="product product-single">			<div class="product-thumb"><a href="/products/view_product.html/' + json[i].id + '/"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista previa</button></a><img src="../../../static/' + json[i].picture + '" class="img-fluid rounded " alt=""></div><div class="product-body"><h3 class="product-price">$ ' + json[i].name + ' </h3><h3 class="product-price">Categoria: ' + json[i].category + ' </h3>	<div class="product-rating">					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star-o empty"></i>				</div>				<h3 class="product-name"><a href="#">$ ' + json[i].value + '</a></h3>				<div class="product-btns">					<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>					<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>					<button type="submit" class="primary-btn add-to-cart" id="{{product.id}}" onclick="getIdProductSelect(' + json[i].id + ')"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>				</div>			</div>		</div>	</li></ul>';
+				}
+				$("#store").html(queryhtml);
+			}
+		})
+	})
+</script>
+
+{% endblock %}

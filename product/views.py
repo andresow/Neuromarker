@@ -26,6 +26,9 @@ def index(request):
 def checkout(request):
     return render(request, 'products/checkout.html')
 
+def carrito(request):
+    return render(request, 'products/carrito.html')
+    
 def productPage(request):
     return render(request, 'products/view_product.html')
 
