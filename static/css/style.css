@@ -87,7 +87,21 @@ a:hover, a:focus {
 .primary-color {
   color: #F8694A;
 }
+.noborders {
+  border: 0;
+}
 
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
 .white-color {
   color: #FFF;
 }
