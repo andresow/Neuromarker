@@ -162,12 +162,10 @@
 					<!-- store top filter -->
 
 					<!-- STORE -->
+					<input type="number" name="productIn" id="productIn" style="display: none">
 					<form method="GET" action="sales/add_product_cart/" id="add_to_cart">
-						<input type="text" 
-									name="productIn" 
-									id="productIn" 
-									style="display: none">
 					<div id="store">
+						
                             {% if products %}
                             {% for product in products %}
 							<!-- Product Single -->
@@ -194,7 +192,11 @@
 										<div class="product-btns">
 											<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 											<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-											<button type='submit' class="primary-btn add-to-cart"><i class="fa fa-shopping-cart" id="{{product.id}}" onclick="getIdProductSelect('{{product.id}}')"></i> Agregar al carrito {{product.id}}</button>
+											
+												
+															<button type='submit' class="primary-btn add-to-cart"><i class="fa fa-shopping-cart" id="{{product.id}}" onclick="getIdProductSelect('{{product.id}}')"></i> Agregar al carrito {{product.id}}</button>
+											
+											
 										</div>
 									</div>
 								</div></li>
@@ -203,8 +205,10 @@
                         {% else %}
                         <h1 class="black-color">No hay productos disponibles</h1>
                         {% endif %}
+
 					</div>
-				</form>
+					</form>
+				
 					<!-- /STORE -->
 			</div>
 			<!-- /MAIN -->
