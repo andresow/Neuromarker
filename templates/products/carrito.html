@@ -116,16 +116,17 @@
                     <select class="input search-categories">
                             <option value="0">Efectivo</option>
                             <option value="1">Tarjeta débito</option>
-                            <option value="1">Tarjeta crédito</option>
+                            <option value="2s">Tarjeta crédito</option>
                         </select>
                 </div>
                 <br>
             
             <!-- store top filter -->
             <div>
-                <table id="bill_table1" class="table responsive table-bordered">
+                <table id="bill_table" class="table responsive table-bordered">
                     <thead class="thead-dark">
                         <tr>
+                            <th style="display: none">id</th>
                             <th>Product's Name</th>
                             <th>Quantity</th>
                             <th>Subtotal</th>
@@ -133,51 +134,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Camisa hombre</td>
-                            <td>6</td>
-                            <td>340000</td>
-                            <td>
 
-                                <a href="#" data-toggle="tooltip" title="Desvincular de mi red">
-                                    <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"
-                                        data-target="#myModal" onclick="getId('{{nodes.id}}', 2)">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </a>
-                                <a href="#" data-toggle="tooltip" title="Cambiar cantidad">
-                                    <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"
-                                        data-target="#exampleModal">
-                                        <i class="fa fa-percent"></i>
-                                    </button>
-                                </a>
-                            </td>
+                        {% if items_cart %}
+                            {% for item_cart in items_cart %}
+                                <tr id="{{item_cart.Product.id}}">
+                                    <th style="display: none" id="{{item_cart.id}}"></th>
+                                    <th id="name_{{item_cart.id}}">{{item_cart.Product.name}}</th>
+                                    <th>{{item_cart.quantity}}</th>
+                                    <th>{{item_cart.quantity}}*{{item_cart.value}}</th>
+                                    <th>BOTON EDITAR CANTIDAD</th>
+                                    <th>BOTON ELIMINAR</th>
+                                </tr>
+                            {% endfor %}
                             <tr>
-                                    <td colspan="1" class="noborders"></td>
-                                    <th class="text-right" scope="row">TOTAL</th>
-                                    <td class="text-right">$340000</td>
-                                  </tr>
+                                <td colspan="1" class="noborders"></td>
+                                <th class="text-right" scope="row">TOTAL</th>
+                                <td class="text-right" id="total_bill">$ {{cart.total}}</td>
+                            </tr>
+                        {% endif %}
+
+                        
                             <!-- MODAL -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Editar comisiones</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Editar cantidad</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" action="/nodes/list_comission.html/{{nodes.id}}/"
-                                                id="post_commission">
-                                                {% csrf_token %}
+                                            <form method="GET" action=""
+                                                id="change_quantity">
                                                 <div class="form-group">
                                                     <label for="recipients-name" class="col-form-label">Ingrese las
                                                         unidades del producto</label>
                                                     <input type="text" class="form-control" id="recipient-name"
                                                         name="recipient-name">
-                                                    <button type="submit" class="primary-btn">Cambiar
+                                                    <button class="primary-btn">Cambiar
                                                         cantidad</button>
                                                 </div>
                                             </form>
@@ -190,8 +186,7 @@
                                 </div>
                             </div>
                             <div class="modal fade" id="myModal">
-                                <form method="POST" action="/nodes/delete_node.html/{{nodes.id}}/" id="post_code">
-                                    {% csrf_token %}
+                                <form method="GET" action="" id="post_delete_product">
 
                                     <div class="modal-dialog modal-sm">
                                         <div class="modal-content">
@@ -216,7 +211,7 @@
                                 </form>
 
                             </div>
-                        </tr>
+                        
                     </tbody>
                 </table>
 
@@ -224,9 +219,12 @@
             
            
             <div class="wrap">
-                    <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#MyModal">
+                <form method="POST" action="{% url 'finishSale' %}">
+                    <button type="submit " class="btn btn-lg btn-success" data-toggle="modal" data-target="#MyModal">
                         Terminar compra
                     </button>
+                </form>
+                    
                 </div>
         </div>
         <!-- /MAIN -->
@@ -237,67 +235,49 @@
 </div>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript">
-    function getProductsByCategory(categoryIn) {
-        document.getElementById("categoryIn").value = categoryIn;
-        console.log("salio")
-        console.log(document.getElementById("categoryIn").value)
-    }
+    function getIdProduct(idProduct){
 
-    function getIdProductSelect(productIn) {
-        document.getElementById("productIn").value = Number(productIn);
-        console.log("aquifueasdasdasdasad : " + productIn)
-        console.log("aquifue : " + $("#productIn").val())
-        console.log(document.getElementById("productIn").value)
     }
+    function changeQuantity(productIn){
 
-    $("#add_to_cart").submit(function (e) {
-        e.preventDefault();
-        console.log("hola");
-        console.log("aquifue : " + $("#productIn").val());
-        console.log($("#productIn").val());
+    }
+    function deleteProduct(idProduct){
         $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: {
-                productIn: $("#productIn").val(),
+            url:"/sales/delet_item_cart/",
+            type:"GET",
+            data:{
+                product_delete : idProduct,
             },
-            success: function (json) {
+            success: function(json){
                 console.log("ntro");
                 console.log(json);
-                document.getElementById("qty_cart").innerHTML = json['items'];
-                document.getElementById("total_cart").innerHTML = json['total_sale'];
-                console.log("paso :" + json['total_sale']);
-                if (json['exist']) {
-                    console.log(json["item_cart"]["quantity"])
-                    document.getElementById("qty_item_" + json['item_cart']['id']).innerHTML = "x" + json["item_cart"]["quantity"];
-                } else {
-                    $('.shopping-cart-list').append('<div class="product product-widget" id="item_' + json["item_cart"]["id_product"] + '">	<div class="product-thumb">			<img src="../../../static/' + json["item_cart"]["picture"] + '" alt="">			</div>			<div class="product-body">				<h3 class="product-price">$' + json["item_cart"]["value"] + ' <span class="qty" id="qty_item_' + json['item_cart']['id'] + '">x' + json["item_cart"]["quantity"] + '</span></h3>				<h2 class="product-name"><a href="#">' + json["item_cart"]["name"] + '</a></h2>			</div>			<button type="submit" class="cancel-btn" id="' + json['item_cart']['id_product'] + '" onclick="getIdButtonDelete(this.id)"><i class="fa fa-trash"></i></button>		</div>');
-                }
-
-
+                document.getElementById("total_cart").innerHTML = json.total;
+                document.getElementById("qty_cart").innerHTML = json.items;
+                document.getElementById("total_bill").innerHTML = json.total;
+                $("#"+json.id_product).remove();
             }
         })
-    })
+    }
 
-    $("#search-category").submit(function (e) {
-        console.log("Entro")
-        $('#store').empty();
-        e.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: {
-                categoryIn: $("#categoryIn").val()
-            },
-            success: function (json) {
-                var queryhtml = '';
-                for (var i = 0; i < json.length; i++) {
-                    queryhtml += '<ul class="col-md-4 col-sm-6 col-xs-w"><li><div class="product product-single">			<div class="product-thumb"><a href="/products/view_product.html/' + json[i].id + '/"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista previa</button></a><img src="../../../static/' + json[i].picture + '" class="img-fluid rounded " alt=""></div><div class="product-body"><h3 class="product-price">$ ' + json[i].name + ' </h3><h3 class="product-price">Categoria: ' + json[i].category + ' </h3>	<div class="product-rating">					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star-o empty"></i>				</div>				<h3 class="product-name"><a href="#">$ ' + json[i].value + '</a></h3>				<div class="product-btns">					<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>					<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>					<button type="submit" class="primary-btn add-to-cart" id="{{product.id}}" onclick="getIdProductSelect(' + json[i].id + ')"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>				</div>			</div>		</div>	</li></ul>';
-                }
-                $("#store").html(queryhtml);
-            }
-        })
-    })
+    function endSale(){
+
+    }
+    /*
+    <td>
+                                <a href="#" data-toggle="tooltip" title="Desvincular de mi red">
+                                    <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"
+                                        data-target="#myModal" onclick="getId('{{nodes.id}}', 2)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </a>
+                                <a href="#" data-toggle="tooltip" title="Cambiar cantidad">
+                                    <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"
+                                        data-target="#exampleModal">
+                                        <i class="fa fa-percent"></i>
+                                    </button>
+                                </a>
+                            </td>
+    */
 </script>
 
 {% endblock %}

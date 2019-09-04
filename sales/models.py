@@ -17,17 +17,6 @@ class Bill(models.Model):
             newBill = Bill(user=user, node=node)
             newBill.save()
 
-    """  @staticmethod
-    def getActiveSale(request, id_cliente):
-        if "active_sale" in request.session:
-            return Bill.objects.get(id=request.session["active_sale"])
-        else:
-            bill = Bill.objects.create(user=id_cliente)
-            request.session["items_bill"] = []
-            request.session["total_bill"] = 0
-            request.session["active_sale"] = bill.id
-            return bill """
-
 class ItemBill(models.Model):
 
     Product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE)

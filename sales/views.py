@@ -112,3 +112,26 @@ def deleteProductShoppingCart(request):
             active_cart.save()
             item_out.delete()
             return HttpResponse(json.dumps({"total":active_cart.total, 'items':active_cart.items, 'id_product':product_delete},cls=DjangoJSONEncoder), content_type = "application/json")
+
+def finishSale(request):
+    if request.method == "POST":
+        active_cart = Cart.getActiveCart(request, request.user)
+        bill = Bill.objects.create(user=request.user, total=active_cart.total, subtotal=active_cart.subtotal)
+        items_bill = ItemCart.objects.all().filter(cart=active_cart)
+        items_bill = [ addItemsBill(item_bill) for item_bill in items_bill ]
+        active_cart.total = 0
+        active_cart.subtotal = 0
+        active_cart.items = 0
+        active_cart.save()
+
+        items_cart = ItemCart.objects.filter(cart=active_cart)
+        product = Product.objects.all()
+        context = {'products':product,'cart':cart, 'items_cart':items_cart} 
+        return render(request,'products/list_products.html',context)
+        
+
+def addItemsBill(itemCart):
+    itemBill = ItemBill.objects.create(Product=itemCart.Product, cart=itemCart, value=itemCart.value, quantity=itemCart.quantity)
+    itemBill.save()
+    itemCart.delete()
+    return None
