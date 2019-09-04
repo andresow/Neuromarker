@@ -37,22 +37,19 @@
 							<p><strong>Disponible en:</strong> In Stock</p>
 							<p><strong>Ofertado por:</strong> Tienda padre</p>
 							<p>Descripción: {{product.description}}</p>
-							<form method="POST" action="/sales/sales_code/{{product.id}}/" id="post_code_sale" >
- 									{% csrf_token %}
 
 							<div class="product-btns">
 									<div class="qty-input">
 											<span class="text-uppercase">Cantidad: </span>
 											<input class="input" type="number" id="quantity" name="quantity">
-											<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Añadir a mi carrito</button>
+											<button class="primary-btn add-to-cart" onclick="addToCart('{{product.id}}')"><i class="fa fa-shopping-cart"></i> Añadir a mi carrito</button>
 											<hr>
 											<span class="text-uppercase" id="code">Codigo: </span>
 											<input class="input" type="text" id="codeSale" name="codeSale">
-											<button class="primary-btn add-to-cart"><i class="fa fa-percent" type="button" ></i> Enviar codigo de descuento</button>																
+											<button class="primary-btn add-to-cart"><i class="fa fa-percent" type="button" ></i> Enviar codigo de descuento</button>
+																											
 										</div>
-								</div>
-							</form> 
-								
+								</div>								
 						</div>
 					</div>
 				</div>
@@ -62,22 +59,38 @@
 		</div>
 		<!-- /container -->
     </div>
-	<script>
-			$(document).submit( function(e){
-				e.preventDefault();
-				document.getElementById("quantity").value = createJson();
-				document.getElementById("codeSale").value = createJson();
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+	<script type="text/javascript">
+		function addToCart(productIn){
+			product = Number(productIn);
+			cantidad = $("#quantity").val();
+			console.log(cantidad);
+			if (cantidad!="" || cantidad > 0) {
+				console.log("entro");
 				$.ajax({
-				  url:$(this).attr('action'),
-				  type:$(this).attr('method'),
-				  data:{        
-					csrfmiddlewaretoken:$('{{ csrf_token }}'),
-					quantitys:$('#quantity').val(),
-					codeSales:$('#codeSale').val()			
-				  },
-				  success: succesRequest
-				});
-			});						
-			
-			</script>
+					url: "sales/add_product_cart/",
+					type: "GET",
+					data: {
+						productIn: product,
+						cantidadIn: cantidad,
+					},
+					success: function (json) {
+						console.log("ntro");
+						console.log(json);
+						/*document.getElementById("qty_cart").innerHTML = json['items'];
+						document.getElementById("total_cart").innerHTML = json['total_sale'];
+						console.log("paso :" + json['total_sale']);
+						if(json['exist']){
+							console.log(json["item_cart"]["quantity"])
+								document.getElementById("qty_item_"+json['item_cart']['id']).innerHTML = "x"+json["item_cart"]["quantity"];
+						} else {
+							$('.shopping-cart-list').append('<div class="product product-widget" id="item_' + json["item_cart"]["id_product"] + '">	<div class="product-thumb">			<img src="../../../static/' + json["item_cart"]["picture"] + '" alt="">			</div>			<div class="product-body">				<h3 class="product-price">$' + json["item_cart"]["value"] + ' <span class="qty" id="qty_item_'+json['item_cart']['id']+'">x' + json["item_cart"]["quantity"] + '</span></h3>				<h2 class="product-name"><a href="#">' + json["item_cart"]["name"] + '</a></h2>			</div>			<button type="submit" class="cancel-btn" id="'+json['item_cart']['id_product']+'" onclick="getIdButtonDelete(this.id)"><i class="fa fa-trash"></i></button>		</div>');
+						}*/	
+					}
+				})
+			} else {
+				console.log("MENSAJE DE ERROR")
+			}
+		}			
+	</script>
     {% endblock %}

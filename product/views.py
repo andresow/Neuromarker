@@ -27,7 +27,10 @@ def checkout(request):
     return render(request, 'products/checkout.html')
 
 def carrito(request):
-    return render(request, 'products/carrito.html')
+    cart = Cart.getActiveCart(request,request.user)
+    items_cart = ItemCart.objects.filter(cart=cart)
+    context = {'cart':cart, 'items_cart':items_cart}
+    return render(request, 'products/carrito.html', context)
     
 def productPage(request):
     return render(request, 'products/view_product.html')
@@ -121,7 +124,8 @@ def listProducts(request):
 
 
 def viewDetaillProduct(request, id):
-
+    cart = Cart.getActiveCart(request,request.user)
+    items_cart = ItemCart.objects.filter(cart=cart)
     product = Product.objects.get(id=id)
     print(product.restriction)
     if product.restriction  == True:
@@ -129,10 +133,10 @@ def viewDetaillProduct(request, id):
         if request.user.id is None:
             return render(request,'auth/login.html') 
         else:
-            context = {'product':product}
+            context = {'product':product, 'cart':cart, 'items_cart':items_cart}
             return render(request,'products/view_product.html',context)    
     else:
-        context = {'product':product}
+        context = {'product':product, 'cart':cart, 'items_cart':items_cart}
         return render(request,'products/view_product.html',context)
 
 @login_required(login_url='/login/')
