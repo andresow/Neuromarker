@@ -124,6 +124,7 @@ def deleteProductShoppingCart(request):
             item_out.delete()
             return HttpResponse(json.dumps({"total":active_cart.total, 'items':active_cart.items, 'id_product':product_delete},cls=DjangoJSONEncoder), content_type = "application/json")
 
+
 def finishSale(request):
     if request.method == "POST":
         active_cart = Cart.getActiveCart(request, request.user)
@@ -137,7 +138,7 @@ def finishSale(request):
 
         items_cart = ItemCart.objects.filter(cart=active_cart)
         product = Product.objects.all()
-        context = {'products':product,'cart':cart, 'items_cart':items_cart} 
+        context = {'products':product,'cart':cart, 'items_cart':items_cart}
         return render(request,'products/list_products.html',context)
         
 

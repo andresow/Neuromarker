@@ -137,20 +137,20 @@
 
                         {% if items_cart %}
                             {% for item_cart in items_cart %}
-                                <tr id="{{item_cart.Product.id}}">
+                                <tr id="fila_{{item_cart.Product.id}}">
                                     <td style="display: none" id="{{item_cart.id}}"></td>
                                     <td id="name_{{item_cart.id}}">{{item_cart.Product.name}}</td>
                                     <td>{{item_cart.quantity}}</td>
                                     <td>{{item_cart.quantity}}*{{item_cart.value}}</td>
-                                    <td><a href="#" data-toggle="tooltip" title="Desvincular de mi red">
-                                        <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"
-                                            data-target="#myModal" onclick="getId('{{nodes.id}}', 2)">
+                                    <td><a href="#" data-toggle="tooltip" title="Eliminar producto de la factura">
+                                        <button id="{{item_cart.Product.id}}" class="primary-btn  btn-circle btn-sm" data-toggle="modal"
+                                            data-target="#myModal" onclick="getProductId(this.id)">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </a>
                                     <a href="#" data-toggle="tooltip" title="Cambiar cantidad">
-                                        <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"
-                                            data-target="#exampleModal">
+                                        <button id="{{item_cart.Product.id}}" class="primary-btn  btn-circle btn-sm" data-toggle="modal"
+                                            data-target="#exampleModal" onclick="getProductId(this.id)">
                                             <i class="fa fa-percent"></i>
                                         </button>
                                     </a></td>
@@ -163,7 +163,7 @@
                             </tr>
                         {% endif %}
 
-                        
+                        <input type="number" name="productIn" id="productIn" style="display: none">
                             <!-- MODAL -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -181,7 +181,7 @@
                                                 <div class="form-group">
                                                     <label for="recipients-name" class="col-form-label">Ingrese las
                                                         unidades del producto</label>
-                                                    <input type="text" class="form-control" id="recipient-name"
+                                                    <input type="number" min="1" class="form-control" id="recipient-name"
                                                         name="recipient-name">
                                                     <button class="primary-btn">Cambiar
                                                         cantidad</button>
@@ -195,8 +195,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="myModal">
-                                <form method="GET" action="" id="post_delete_product">
+                            <div class="modal fade" id="myModal">                                
 
                                     <div class="modal-dialog modal-sm">
                                         <div class="modal-content">
@@ -213,12 +212,11 @@
                                             </div>
                                             <!-- Modal footer -->
                                             <div class="modal-footer">
-                                                <button type="submit" class="primary-btn">Confirmar</button>
+                                                <button class="primary-btn" onclick="deleteProduct()" data-dismiss="modal">Confirmar</button>
                                                 <button type="button" class="btn btn-secondary"
                                                     data-dismiss="modal">Cancelar</button>
                                             </div>
                                         </div>
-                                </form>
 
                             </div>
                         
@@ -245,18 +243,20 @@
 </div>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript">
-    function getIdProduct(idProduct){
-
+    function getProductId(idProduct){
+        document.getElementById("productIn").value = idProduct;
+        console.log(document.getElementById("productIn").value);
     }
     function changeQuantity(productIn){
 
     }
-    function deleteProduct(idProduct){
+    function deleteProduct(){
+        productIn = document.getElementById("productIn").value
         $.ajax({
             url:"/sales/delet_item_cart/",
             type:"GET",
             data:{
-                product_delete : idProduct,
+                product_delete : productIn,
             },
             success: function(json){
                 console.log("ntro");
@@ -264,7 +264,7 @@
                 document.getElementById("total_cart").innerHTML = json.total;
                 document.getElementById("qty_cart").innerHTML = json.items;
                 document.getElementById("total_bill").innerHTML = json.total;
-                $("#"+json.id_product).remove();
+                $("#fila_"+json.id_product).remove();
             }
         })
     }
