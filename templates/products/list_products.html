@@ -240,17 +240,23 @@
 				cantidadIn: 1,
 			},
 			success: function (json) {
-				console.log("ntro");
-				console.log(json);
-				document.getElementById("qty_cart").innerHTML = json['items'];
-				document.getElementById("total_cart").innerHTML = json['total_sale'];
-				console.log("paso :" + json['total_sale']);
-				if(json['exist']){
-					console.log(json["item_cart"]["quantity"])
-						document.getElementById("qty_item_"+json['item_cart']['id']).innerHTML = "x"+json["item_cart"]["quantity"];
+				if (json['success']) {
+					console.log("ntro");
+					console.log(json);
+					document.getElementById("qty_cart").innerHTML = json['items'];
+					document.getElementById("total_cart").innerHTML = json['total_sale'];
+					console.log("paso :" + json['total_sale']);
+					if(json['exist']){
+						console.log(json["item_cart"]["quantity"])
+							document.getElementById("qty_item_"+json['item_cart']['id']).innerHTML = "x"+json["item_cart"]["quantity"];
+					} else {
+						$('.shopping-cart-list').append('<div class="product product-widget" id="item_' + json["item_cart"]["id_product"] + '">	<div class="product-thumb">			<img src="../../../static/' + json["item_cart"]["picture"] + '" alt="">			</div>			<div class="product-body">				<h3 class="product-price">$' + json["item_cart"]["value"] + ' <span class="qty" id="qty_item_'+json['item_cart']['id']+'">x' + json["item_cart"]["quantity"] + '</span></h3>				<h2 class="product-name"><a href="#">' + json["item_cart"]["name"] + '</a></h2>			</div>			<button type="submit" class="cancel-btn" id="'+json['item_cart']['id_product']+'" onclick="getIdButtonDelete(this.id)"><i class="fa fa-trash"></i></button>		</div>');
+					}
 				} else {
-					$('.shopping-cart-list').append('<div class="product product-widget" id="item_' + json["item_cart"]["id_product"] + '">	<div class="product-thumb">			<img src="../../../static/' + json["item_cart"]["picture"] + '" alt="">			</div>			<div class="product-body">				<h3 class="product-price">$' + json["item_cart"]["value"] + ' <span class="qty" id="qty_item_'+json['item_cart']['id']+'">x' + json["item_cart"]["quantity"] + '</span></h3>				<h2 class="product-name"><a href="#">' + json["item_cart"]["name"] + '</a></h2>			</div>			<button type="submit" class="cancel-btn" id="'+json['item_cart']['id_product']+'" onclick="getIdButtonDelete(this.id)"><i class="fa fa-trash"></i></button>		</div>');
+					console.log("Entroeneleleldlasldasld")
+					window.location.replace("/login/");
 				}
+				
 				
 					
 			}

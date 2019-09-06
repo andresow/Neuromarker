@@ -101,17 +101,19 @@ def uploadImage(request,id):
 
 
 def listProduct(request):
-    cart = Cart.getActiveCart(request,request.user)
-    items_cart = ItemCart.objects.filter(cart=cart)
-    product = Product.objects.all()
-    context = {'products':product,'cart':cart, 'items_cart':items_cart} 
-    return render(request,'products/list_products.html',context)
+    if request.user.is_active:
+        cart = Cart.getActiveCart(request,request.user)
+        items_cart = ItemCart.objects.filter(cart=cart)
+        product = Product.objects.all()
+        context = {'products':product, 'cart':cart, 'items_cart':items_cart} 
+        return render(request,'products/list_products.html',context)
+    else:
+        product = Product.objects.all()
+        context = {'products':product} 
+        return render(request,'products/list_products.html',context)
 
-@login_required(login_url='/login/')
-def addCart2(request):
-    product = Product.objects.all()
-    context = {'products':product} 
-    return render(request,'products/list_products.html',context)
+
+
 
 @login_required(login_url='/login/')
 def listProducts(request):
@@ -130,20 +132,35 @@ def listProducts(request):
 
 
 def viewDetaillProduct(request, id):
-    cart = Cart.getActiveCart(request,request.user)
-    items_cart = ItemCart.objects.filter(cart=cart)
-    product = Product.objects.get(id=id)
-    print(product.restriction)
-    if product.restriction  == True:
-        print(request.user.id)
-        if request.user.id is None:
-            return render(request,'auth/login.html') 
+    if request.user.is_active:
+        cart = Cart.getActiveCart(request,request.user)
+        items_cart = ItemCart.objects.filter(cart=cart)
+        product = Product.objects.get(id=id)
+        print(product.restriction)
+        if product.restriction  == True:
+            print(request.user.id)
+            if request.user.id is None:
+                return render(request,'auth/login.html') 
+            else:
+                context = {'product':product, 'cart':cart, 'items_cart':items_cart}
+                return render(request,'products/view_product.html',context)    
         else:
             context = {'product':product, 'cart':cart, 'items_cart':items_cart}
-            return render(request,'products/view_product.html',context)    
+            return render(request,'products/view_product.html',context)
     else:
-        context = {'product':product, 'cart':cart, 'items_cart':items_cart}
-        return render(request,'products/view_product.html',context)
+        product = Product.objects.get(id=id)
+        print(product.restriction)
+        if product.restriction  == True:
+            print(request.user.id)
+            if request.user.id is None:
+                return render(request,'auth/login.html') 
+            else:
+                context = {'product':product}
+                return render(request,'products/view_product.html',context)    
+        else:
+            context = {'product':product}
+            return render(request,'products/view_product.html',context)
+
 
 @login_required(login_url='/login/')
 @csrf_exempt
