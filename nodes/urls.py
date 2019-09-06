@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'nodes/list_comission.html/(?P<id>\d+)/', editComission, name='edit_comission'),
     url(r'nodes/delete_node.html/(?P<ide>\d+)/', deleteNodeMyRed, name='delete_myRed'),
     url(r'nodes/insert_code_father.html', nodeForCode, name='insert_code'),
+    url(r'nodes/insert_node.html', createSaleNode, name='insert_node'),
 
 
 ]

@@ -108,6 +108,12 @@ def listProduct(request):
     return render(request,'products/list_products.html',context)
 
 @login_required(login_url='/login/')
+def addCart2(request):
+    product = Product.objects.all()
+    context = {'products':product} 
+    return render(request,'products/list_products.html',context)
+
+@login_required(login_url='/login/')
 def listProducts(request):
 
     if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id).exists() == True:

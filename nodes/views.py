@@ -38,6 +38,15 @@ def createNodeShop(request):
     return render(request,'nodes/create_node.html', context) 
 
 @login_required(login_url='/login/')
+def createSaleNode(request):
+    print("paila")
+    currentUser = User.objects.get(id=request.user.id)
+    print(currentUser)
+    Nodes.objects.create(user=currentUser, is_red= False,name= currentUser.first_name ,percentage_commission=0, id_father=0)
+    print(currentUser.first_name)
+    return render(request,'products/list_products.html') 
+
+@login_required(login_url='/login/')
 def listNodes(request):
     if Node_father.objects.filter(node_id=Nodes.objects.get(user_id=request.user.id).id).exists() == True:
         nodes = Nodes.objects.all().filter(id_father=request.user.id)
