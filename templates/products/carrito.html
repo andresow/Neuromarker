@@ -138,17 +138,27 @@
                         {% if items_cart %}
                             {% for item_cart in items_cart %}
                                 <tr id="{{item_cart.Product.id}}">
-                                    <th style="display: none" id="{{item_cart.id}}"></th>
-                                    <th id="name_{{item_cart.id}}">{{item_cart.Product.name}}</th>
-                                    <th>{{item_cart.quantity}}</th>
-                                    <th>{{item_cart.quantity}}*{{item_cart.value}}</th>
-                                    <th>BOTON EDITAR CANTIDAD</th>
-                                    <th>BOTON ELIMINAR</th>
+                                    <td style="display: none" id="{{item_cart.id}}"></td>
+                                    <td id="name_{{item_cart.id}}">{{item_cart.Product.name}}</td>
+                                    <td>{{item_cart.quantity}}</td>
+                                    <td>{{item_cart.quantity}}*{{item_cart.value}}</td>
+                                    <td><a href="#" data-toggle="tooltip" title="Desvincular de mi red">
+                                        <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"
+                                            data-target="#myModal" onclick="getId('{{nodes.id}}', 2)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </a>
+                                    <a href="#" data-toggle="tooltip" title="Cambiar cantidad">
+                                        <button class="primary-btn  btn-circle btn-sm" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <i class="fa fa-percent"></i>
+                                        </button>
+                                    </a></td>
                                 </tr>
                             {% endfor %}
                             <tr>
                                 <td colspan="1" class="noborders"></td>
-                                <th class="text-right" scope="row">TOTAL</th>
+                                <td class="text-right" scope="row">TOTAL</td>
                                 <td class="text-right" id="total_bill">$ {{cart.total}}</td>
                             </tr>
                         {% endif %}
