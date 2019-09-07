@@ -75,23 +75,28 @@ def addProductShoppingCart(request):
                 active_cart = Cart.getActiveCart(request, request.user) #MIRAR LO DEL REQUESTUSER
                 productIn = request.GET.get('productIn')
                 cantidadIn = int(request.GET.get('cantidadIn'))
-                product = Product.objects.get(id=productIn)            
-                try:
-                    item_cart = ItemCart.objects.get(cart=active_cart, Product=product)
-                    exist= True
-                except ItemCart.DoesNotExist:
-                    item_cart = None
-                    exist = False
-                if item_cart==None:
-                    item_cart = ItemCart.objects.create(Product=product,cart=active_cart,value=product.value, quantity=cantidadIn)
-                else:
-                    item_cart.quantity = cantidadIn +item_cart.quantity
-                    item_cart.save()
-                item_cart = item_cart_serializer(item_cart, product.name, str(product.picture))
-                active_cart.total += product.value
-                active_cart.items += cantidadIn
-                active_cart.save()
-                context = {'id_cart':active_cart.id,'total_sale':active_cart.total, 'item_cart':item_cart, 'items':active_cart.items, 'exist':exist, 'success':True}
+                product = Product.objects.get(id=productIn)
+                funciona = False     
+                if product.quantity >= cantidadIn:
+                    print(product.quantity)       
+                    try:
+                        item_cart = ItemCart.objects.get(cart=active_cart, Product=product)
+                        funciona = True
+                        exist= True
+                    except ItemCart.DoesNotExist:
+                        item_cart = None
+                        exist = False
+                    if item_cart==None:
+                        funciona = True
+                        item_cart = ItemCart.objects.create(Product=product,cart=active_cart,value=product.value, quantity=cantidadIn)
+                    else:
+                        item_cart.quantity = cantidadIn +item_cart.quantity
+                        item_cart.save()
+                    item_cart = item_cart_serializer(item_cart, product.name, str(product.picture))
+                    active_cart.total += product.value
+                    active_cart.items += cantidadIn
+                    active_cart.save()
+                context = {'id_cart':active_cart.id,'total_sale':active_cart.total, 'item_cart':item_cart, 'items':active_cart.items, 'exist':exist, 'success':funciona}
                 print(context)
                 return HttpResponse(json.dumps(context,cls=DjangoJSONEncoder), content_type = "application/json")
     else:
