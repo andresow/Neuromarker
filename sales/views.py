@@ -147,6 +147,7 @@ def finishSale(request):
                 active_cart.subtotal = 0
                 active_cart.items = 0
                 active_cart.save()
+                bill = bill_serializer(bill)
                 context = {'success':True,'bill':bill, 'items_bill':items_bill}
                 return HttpResponse(json.dumps(context,cls=DjangoJSONEncoder), content_type = "application/json")
             else:
@@ -162,3 +163,6 @@ def addItemsBill(itemCart, billIn):
     node.saldo = node.saldo + total
     node.save()
     return {'id': itemBill.id, 'id_product':itemBill.Product.id, 'name': itemBill.Product.name, 'value': itemBill.value, 'quantity': itemBill.quantity, 'total': total}
+
+def bill_serializer(billIn):
+    return {'id':billIn.id, 'total':billIn.total, 'subtotal':billIn.subtotal, 'date':str(billIn.date)}
