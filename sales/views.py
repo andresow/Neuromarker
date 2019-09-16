@@ -162,6 +162,9 @@ def addItemsBill(itemCart, billIn):
     node = Nodes.objects.get(id=itemCart.Product.node.id)
     node.saldo = node.saldo + total
     node.save()
+    product = Product.objects.get(id=itemCart.Product.id)
+    product.quantity = product.quantity - itemCart.quantity
+    product.save()
     return {'id': itemBill.id, 'id_product':itemBill.Product.id, 'name': itemBill.Product.name, 'value': itemBill.value, 'quantity': itemBill.quantity, 'total': total}
 
 def bill_serializer(billIn):
