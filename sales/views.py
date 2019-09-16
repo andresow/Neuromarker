@@ -125,28 +125,40 @@ def deleteProductShoppingCart(request):
             return HttpResponse(json.dumps({"total":active_cart.total, 'items':active_cart.items, 'id_product':product_delete},cls=DjangoJSONEncoder), content_type = "application/json")
 
 
+def checkAvailability(request):
+    active_cart = Cart.getActiveCart(request, request.user)
+    items_cart = ItemCart.objects.all().filter(cart=active_cart)
+    for item_cart in items_cart:
+        if item_cart.quantity > item_cart.Product.quantity:
+            item_cart.delete()
+            return False
+    return True
+
 def finishSale(request):
-    if request.method == "GET":
-        active_cart = Cart.getActiveCart(request, request.user)
-        bill = Bill.objects.create(user=request.user, total=active_cart.total, subtotal=active_cart.subtotal)
-        bill.save()
-        items_bill = ItemCart.objects.all().filter(cart=active_cart)
-        items_bill = [ addItemsBill(item_bill) for item_bill in items_bill ]
-        active_cart.total = 0
-        active_cart.subtotal = 0
-        active_cart.items = 0
-        active_cart.save()
-
-
-        items_cart = ItemCart.objects.filter(cart=active_cart)
-        product = Product.objects.all()
-        context = {'products':product,'cart':cart, 'items_cart':items_cart}
-
-        return render(request,'products/list_products.html',context)
+    if request.is_ajax:
+        if request.method == 'GET':
+            if checkAvailability(request):
+                active_cart = Cart.getActiveCart(request, request.user)
+                bill = Bill.objects.create(user=request.user, total=active_cart.total, subtotal=active_cart.subtotal)
+                items_bill = ItemCart.objects.all().filter(cart=active_cart)
+                items_bill = [ addItemsBill(item_bill, bill) for item_bill in items_bill ]
+                bill.save()
+                active_cart.total = 0
+                active_cart.subtotal = 0
+                active_cart.items = 0
+                active_cart.save()
+                context = {'success':True,'bill':bill, 'items_bill':items_bill}
+                return HttpResponse(json.dumps(context,cls=DjangoJSONEncoder), content_type = "application/json")
+            else:
+                return HttpResponse(json.dumps({'success':False},cls=DjangoJSONEncoder), content_type = "application/json")         
         
 
-def addItemsBill(itemCart):
-    itemBill = ItemBill.objects.create(Product=itemCart.Product, cart=itemCart, value=itemCart.value, quantity=itemCart.quantity)
+def addItemsBill(itemCart, billIn):
+    itemBill = ItemBill.objects.create(Product=itemCart.Product, bill=billIn, value=itemCart.value, quantity=itemCart.quantity)
     itemBill.save()
     itemCart.delete()
-    return None
+    total = itemBill.value * itemBill.quantity
+    node = Nodes.objects.get(id=itemCart.Product.node.id)
+    node.saldo = node.saldo + total
+    node.save()
+    return {'id': itemBill.id, 'id_product':itemBill.Product.id, 'name': itemBill.Product.name, 'value': itemBill.value, 'quantity': itemBill.quantity, 'total': total}
