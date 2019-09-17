@@ -196,7 +196,7 @@
 											<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
 											
 												
-															<button type='submit' class="primary-btn add-to-cart"><i class="fa fa-shopping-cart" id="{{product.id}}" onclick="getIdProductSelect('{{product.id}}')"></i> Agregar al carrito {{product.id}}</button>
+															<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart" id="{{product.id}}" onclick='getIdProductSelect("{{product.id}}")'></i> Agregar al carrito </button>
 											
 											
 										</div>
@@ -221,6 +221,23 @@
 </div>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript">
+
+	$(function(){
+		$('#store').empty();
+		$.ajax({
+			url: '/products/get_products_json/',
+			type: 'GET',
+			success: function (json) {
+				var queryhtml = '';
+				for (var i = 0; i < json.length; i++) {
+					queryhtml += '<ul class="col-md-4 col-sm-6 col-xs-w"><li><div class="product product-single">			<div class="product-thumb"><a href="/products/view_product.html/' + json[i].id + '/"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Vista previa</button></a><img src="../../../static/' + json[i].picture + '" class="img-fluid rounded " alt=""></div><div class="product-body"><h3 class="product-price">$ ' + json[i].name + ' </h3><h3 class="product-price">Categoria: ' + json[i].category + ' </h3>	<div class="product-rating">					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star"></i>					<i class="fa fa-star-o empty"></i>				</div>				<h3 class="product-name"><a href="#">$ ' + json[i].value + '</a></h3>				<div class="product-btns">					<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>					<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>					<button type="submit" class="primary-btn add-to-cart" id="{{product.id}}" onclick="getIdProductSelect(' + json[i].id + ')"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>				</div>			</div>		</div>	</li></ul>';
+				}
+				$("#store").html(queryhtml);
+			}
+		})
+	});
+
+
 	function getProductsByCategory(categoryIn) {
 		document.getElementById("categoryIn").value = categoryIn;
 		console.log("salio")

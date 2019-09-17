@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'products/discount_quantity.html/(?P<ide>\d+)/', discountProduct, name='discount_product'),
     url(r'products/carrito/', carrito, name='carrito'),
     url(r'products/get_products_by_category/', listProductsByCategory, name='get_products_by_category'),
+    url(r'products/get_products_json/', listProductsJSON, name='get_products_json'),
 
 ]

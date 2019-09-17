@@ -207,5 +207,12 @@ def listProductsByCategory(request):
             products = [ product_serializer(product) for product in products]
             return HttpResponse(json.dumps(products,cls=DjangoJSONEncoder), content_type = "application/json")
 
+def listProductsJSON(request):
+    if request.is_ajax:
+        if request.method == 'GET':
+            products = Product.objects.all()
+            products = [ product_serializer(product) for product in products]
+            return HttpResponse(json.dumps(products,cls=DjangoJSONEncoder), content_type = "application/json")
+
 def product_serializer(product):
     return {'id': product.id, 'name': product.name, 'category': product.category, 'value': product.value, 'picture':str(product.picture)}
