@@ -104,11 +104,11 @@ def listProduct(request):
     if request.user.is_active:
         cart = Cart.getActiveCart(request,request.user)
         items_cart = ItemCart.objects.filter(cart=cart)
-        product = Product.objects.all()
+        product = Product.objects.filter(quantity__gte=1)
         context = {'products':product, 'cart':cart, 'items_cart':items_cart} 
         return render(request,'products/list_products.html',context)
     else:
-        product = Product.objects.all()
+        product = Product.objects.all().filter(quantity__gte=1)
         context = {'products':product} 
         return render(request,'products/list_products.html',context)
 
@@ -167,6 +167,7 @@ def viewDetaillProduct(request, id):
 def moreQuantity(request, ide):
     if request.method == "POST": #os request.GET()
         var = request.POST['mach2']
+        print(var)
         product = Product.objects.all().filter(id=var)
         for object in product:
             object.quantity = object.quantity + int(request.POST['recipient-name'])

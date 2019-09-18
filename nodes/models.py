@@ -7,7 +7,7 @@ class Nodes(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     is_red = models.BooleanField(default=True)
     name  = models.TextField(max_length=500, blank=True)
-    saldo = models.IntegerField()
+    saldo = models.IntegerField(default=0)
     percentage_commission = models.IntegerField()
     id_father = models.IntegerField(null=True)
 
