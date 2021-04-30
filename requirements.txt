@@ -16,6 +16,6 @@ six==1.12.0
 social-auth-app-django==3.1.0
 social-auth-core==3.2.0
 sqlparse==0.3.0
-urllib3==1.25.3
+urllib3==1.25.8
 Pillow==8.1.1
 django-carton==1.2.1
